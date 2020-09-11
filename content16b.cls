@@ -1,7 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{content16b}[Base class for EE 16B content]
 
-\LoadClass[10pt, twoside]{memoir}
+\LoadClass[10pt, oneside]{memoir}
 
 %% Packages in lexicographical order! for deduplication
 \RequirePackage{adjustbox}
