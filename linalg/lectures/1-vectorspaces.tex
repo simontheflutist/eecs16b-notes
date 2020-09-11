@@ -1,0 +1,387 @@
+\chapter{Vector spaces and bases}
+
+\section{Abstract vector spaces (review)}
+A vector space \(V\) is an algebraic structure motivated by the idea of parameterizing all possible displacements of a particular object in space.
+Here is an incomplete list of intuitive notions about displacements that will lend insight to the formal definition (which is notoriously opaque).
+\begin{enumerate}
+  \item
+  There is a ``neutral displacement'' which consists in not moving at all.
+  \item
+  Displacements can be composed.
+  If ``one mile north'' and ``two miles east'' are two examples of displacements, then ``one mile north and two miles east'' counts too.
+  \item
+  In the above example, order of composition doesn't matter.
+  You can first go north, then east; or you can first go east, then north.
+  Either path leads to the same overall displacement.
+  \item
+  Given a displacement, you should be able to state \emph{how much} of it to refer to.
+  For example, the displacement from the top of my head to the bottom of my torso is approximately three times that from the top of my head to my chin.
+  \item
+  There is no obviously meaningful way to ``{multiply}'' two displacements to result in another one.
+  Where would I end up if I were displaced by the product of ``New York to Los Angeles'' and ``Chicago to Seattle''?
+\end{enumerate}
+
+\begin{infdef}
+  A \textbf{field} is a collection of numbers with additive identity 0 and multiplicative identity 1 that you can add, subtract, multiply, and divide (except by 0) in the usual way.
+\end{infdef}
+For our purposes, the field is almost always \(\mathbb{C}\), the complex numbers.\footnote{A fuller definition and theory of fields is not a part of this class, but if you're curious, there are lots of fields out there! Other examples are \(\mathbb{R}\), the real numbers; \(\mathbb{Q}\), the rational numbers; \(\mathbb{Q}[j]\), the rational numbers with \(\sqrt{-1}\) thrown in; and \(\mathbb{Z}_p\), the integers modulo a prime \(p\).}
+
+\begin{definition}[Vector space]
+A \textbf{vector space} over a field of scalars is a set on which addition and scalar multiplication are defined satisfying the following:
+\begin{enumerate}
+  \item
+  For all vectors \(x\) and \(y\), \(x + y=y + x\).
+  (commutativity of addition)
+  \item
+   For all vectors \(x\), \(y\), and \(z\), \((x + y) + z = x + (y + z)\).
+  (associativity of addition)
+  \item
+  There is a neutral vector 0 such that \(x + 0 = x\).
+  (additive identity)
+  \item
+  For each vector \(x\) there is a vector \(y\) such that \(x + y = 0\).
+  (additive inverse, ``subtraction'')
+  \item
+  For each vector \(x\), \(1x = x\).
+  (multiplicative identity)
+  \item
+  For each pair of scalars \(\alpha\) and \(\beta\) and each vector \(x\),
+  \((\alpha\beta)x = \alpha(\beta x)\).
+  (associativity of scalar multiplication)
+  \item
+  For each scalar \(\alpha\) and pair of vectors \(x\) and \(y\),
+  \(\alpha(x + y) = \alpha x + \alpha y\).
+  (left distributivity of scalar multiplication)
+  \item
+  For each pair of scalars \(\alpha\) and \(\beta\) and vector \(x\),
+  \((\alpha + \beta) x = \alpha x + \beta x\).
+  (right distributivity of scalar multiplication)
+\end{enumerate}
+\end{definition}
+There are a \emph{lot} of definitions and facts about vector spaces from 16A or 54 that are necessary to go further, e.g.~that a vector space has exactly one additive identity element.
+We rely on a lot of commonsense technical results about existence and uniqueness, but we will not interrogate them.
+The following are some of the most important ones.
+
+\begin{definition}[Linear independence]
+  The vectors \(v_1, v_2, \ldots, v_n\) are \textbf{linearly independent} if
+  for any scalars \(\alpha_1, \alpha_2, \ldots, \alpha_n\);\footnote{A note on notation: it's customary to write the shorthand ``1, 2, \ldots, \(n\)''  to signify ``all of the numbers from 1 to \(n\),'' even if \(n \leq 2\). If \(n\) is 0, it's the empty list; if \(n\) is \(1\) or \(2\) then the enumeration is understood to end at \(n\).}
+  \(\alpha_1 v_1 + \alpha_2 v_2 + \ldots + \alpha_n v_n = 0\)
+  implies
+  \(\alpha_1 = \alpha_2 = \ldots = \alpha_n = 0\).
+\end{definition}
+
+\begin{definition}[Basis]
+  % A list of vectors \(v_1, v_2, \ldots, v_n\) from \(V\) is a \textbf{basis} for \(V\) if it is linearly independent
+  A \textbf{basis} of a vector space \(V\) is a maximal list of linearly independent vectors: if you added even one more vector from \(V\), it would not longer be linearly independent.
+\end{definition}
+
+\begin{definition}[Dimension]
+  The dimension of a vector space \(V\) is the number of vectors in any basis of \(V\).
+\end{definition}
+
+\begin{theorem}[Criteria for vectors to form a basis]
+  A list of vectors \(v_1, v_2, \ldots, v_m\) is a basis for \(V\) if any two of the following three conditions hold:
+  \begin{enumerate}
+    \item \(m = \dim V\).
+    \item \(v_1, v_2, \ldots, v_m\) generate \(V\).
+    \item \(v_1, v_2, \ldots, v_m\) are linearly independent.
+  \end{enumerate}
+\end{theorem}
+
+\subsection{Very important example: \(k^n\) as a vector space over \(k\)}
+Given a field \(k\) and an integer \(k > 0\), we can form the vector space \(k^n\) of \(n\)-tuples of scalars from \(k\).
+Vectors are expressions of the form \(v = (v_1, v_2, \ldots, v_n) \)\footnote{Setting off the components with commas distinguishes this expression from a ``row vector.''} and are sometimes written as ``column vectors'':
+\begin{align*}
+  (v_1, v_2, \ldots, v_n)
+  &=
+  \begin{pmatrix}
+    v_1 \\
+    v_2 \\
+    \vdots\\
+    v_n
+  \end{pmatrix}.
+\end{align*}
+
+Addition is defined by the rule
+\((v_1, v_2, \ldots, v_n) + (v'_1, v'_2, \ldots, v'_n) = (v_1 + v'_1, v_2 + v_2', \ldots, v_n + v_n')\).
+This can be communicated concisely using a variable subscript:
+\((v + v')_i = v_i + v_i'\).\footnote{This equation would be read aloud as
+``component I of V plus V-prime
+equals component I of V plus component I of V-prime.''
+}
+
+Scalar multiplication is defined by the rule \(\del{\alpha v}_i = \alpha \del{v_i} \).
+
+It can be verified that \(k^n\) with addition and scalar multiplication defined this way is a vector space over \(k\).
+
+\begin{theorem}
+  The dimension of \(k^n\) is \(n\).
+\end{theorem}
+
+\subsection{Unimportant, but interesting example: \(\mathbb{C}^n\) and its evil twin \(\conj{\mathbb{C}^n}\)}
+We will spend most of our time in the vector space \(\mathbb{C}^n\), defined in the usual way above.
+In this section we will define a \emph{different} vector space structure (addition and scalar multiplication) on the set \(\mathbb{C}^n\).
+The vector space we are about to make is evil and strange!
+(It is utterly useless except for scaring your friends.)
+
+Let's call it ``\(\conj{\mathbb{C}^n}\).''
+The underlying set is \(n\)-tuples of complex numbers, and addition is defined componentwise as usual.
+Define scalar multiplication by \(\del{\alpha v}_i = \conj{\alpha} \del{v_i}\).
+That is, ``multiplying'' by a scalar actually scales the vector's components by the conjugate of the scalar.
+
+(Is there an isomorphism of vector spaces between normal \(\mathbb{C}^n\) and \(\conj{\mathbb{C}^n}\)?\footnote{Yes, because all equidimensional vector spaces over the same field are isomorphic. If we use the standard bases for \(\mathbb{C}^n\) and \(\conj{\mathbb{C}^n}\), the matrix of an isomorphism is \(I\). In my opinion the proof is somewhat confusing.})
+
+\section{Coordinates on vector spaces, and abuse of notation}
+There is a difference between \emph{concept} and \emph{representation} of vector spaces.\footnote{For this wording I am indebted to Hegel's theory of knowledge as a synthesis of \emph{Begriff} (tr.~concept/idea) and \emph{Vorstellung} (tr.~representation).}
+Vectors and linear transformations\
+\footnote{A linear transformation from a vector space to itself is called an operator.} have a life of their own and do not mind what we think of them.
+However, in order to work with them hands-on, we need to represent them in a system of coordinates.
+
+A choice of coordinates is like a digital imaging system.
+If I photograph a cat, the photo is not the cat; it is a representation of the cat.
+I can choose to make the photo brighter or darker.
+I can mirror it or rotate it, and even though the image might be very different, the cat is the same; all I have changed is the means of representation.
+
+We represent vectors and linear maps by choosing bases.
+
+\begin{definition}[Coordinates of a vector]
+  The coordinates of a vector \(v\) in the vector space \(V\) with respect to the basis
+  \(\left\{v_1, v_2, \ldots, v_n\right\}\)
+  are the unique scalars
+  \((\alpha_1,\alpha_2,\ldots, \alpha_n)\)
+  such that
+  \(v = \alpha_1 v_1 + \alpha_2 v_2 + \ldots + \alpha_n v_n\).
+\end{definition}
+
+\subsection{Example: two bases for \(\mathbb{C}^3\)}
+We will represent the vector \((1, -\sqrt{3}, \sqrt{3})\) in two different bases.
+\begin{align}
+  \begin{pmatrix}
+    1 \\
+    -\sqrt{3} \\
+    \sqrt{3}
+  \end{pmatrix}
+  % std
+  &=
+  1
+  \begin{pmatrix}
+    1 \\ 0 \\ 0
+  \end{pmatrix}
+  - \sqrt{3}
+  \begin{pmatrix}
+    0 \\ 1 \\ 0
+  \end{pmatrix}
+  +\sqrt{3}
+  \begin{pmatrix}
+    0 \\ 0 \\ 1
+  \end{pmatrix}\\
+  % dft
+  &=
+  1
+  \begin{pmatrix}
+    1 \\ 1 \\ 1
+  \end{pmatrix}
+  +j
+  \begin{pmatrix}
+    1 \\ -1/2 + \sqrt{3}/2j \\ -1/2 - \sqrt{3}/2j
+  \end{pmatrix}
+  -j
+  \begin{pmatrix}
+    1 \\ -1/2 - \sqrt{3}/2j \\ -1/2 + \sqrt{3}/2j
+  \end{pmatrix}
+\end{align}
+
+The coordinates of \((1, -\sqrt{3}, \sqrt{3})\) relative to the first basis are \((1, -\sqrt{3}, \sqrt{3})\).
+This basis is called the standard basis, and its vectors are usually named \(e_1, e_2, e_3\).
+
+The coordinates of \((1, -\sqrt{3}, \sqrt{3})\) relative to the second basis are \((1, j, -j)\).
+
+\begin{definition}[Coordinates of a matrix]
+  The representation of the linear function
+  \(f: V \to U\)
+  relative to the basis
+  \(\left\{v_1, v_2, \ldots, v_n\right\}\) for \(V\)
+  and the basis
+  \(\left\{u_1, u_2, \ldots, u_m\right\}\) for \(U\)
+  are the \(m \times n\) matrix \(A\).
+  Column \(j\) of \(A\) is the coordinate vector of \(f(v_j)\) relative to
+  \(\left\{u_1, u_2, \ldots, u_m\right\}\).
+\end{definition}
+
+\begin{theorem}
+  Coordinate representations of vector spaces are faithful:
+  matrix-vector multiplication represents function application, and matrix-matrix multiplication represents function composition.
+\end{theorem}
+
+In applied mathematical subjects (such this class), we will often use \(\mathbb{C}^n\)
+with the standard basis.
+As a result, we can, and sometimes will delude ourselves with notation that appears to identify the representation of a vector with the vector itself.
+Likewise, sometimes, but not always, we will identify linear functions with their matrix representations.
+
+\section{Diagonalization}
+Throughout this section, let \(T: V\to V\) be a linear map from vector space \(V\) to itself.%
+\footnote{It is safe to think of \(V\) as \(\mathbb{C}^{n}\) and \(T\) as a matrix, but you should nevertheless prefer the toolkit to the laws of vector spaces and linear maps to that of coordinate manipulation.}
+\begin{definition}(Eigenvalues and eigenvectors)
+  If a scalar \(\lambda\) and a nonzero vector \(v\) satisfy the relationship
+  \(T(v) = \lambda v\),
+  then \(v\) is called an \textbf{eigenvector} of \(T\) for \textbf{eigenvalue} \(\lambda\).
+\end{definition}
+Note that the eigenvector-eigenvalue condition is equivalent to saying that
+the linear map
+\((T - \lambda I): V \to V\)
+has a nontrivial nullspace, which can be called the eigenspace of \(T\) for eigenvalue \(\lambda\).
+\begin{theorem}(Diagonalization)
+  If
+  \begin{align*}
+    T(v_1) &= \lambda_1 v_1,\\
+    T(v_2) &= \lambda_2 v_2,\\
+     % &\vdots \\
+    \phantom{T(}\vdots \phantom{)}
+    &= \phantom{\lambda_1}\vdots\\
+    T(v_n) &= \lambda_n v_n
+  \end{align*}
+  are eigenvalue-eigenvector pairs such that
+  \(\left\{v_1, v_2, \ldots, v_n\right\}\)
+  is a basis of \(V\),
+  then the representation of \(T\) in this basis is the diagonal matrix
+  \begin{align*}
+    \begin{pmatrix}
+      \lambda_1 &           &         &           \\
+                & \lambda_2 &         &           \\
+                &           & \ddots  &           \\
+                &           &         & \lambda_n
+    \end{pmatrix},
+  \end{align*}
+  where the empty spaces are zero.
+\end{theorem}
+\begin{proof}
+  To make column \(i\) of the matrix representation of \(T\) relative to this
+  basis, we must represent \(T(v_i)\) in the basis
+  \(\left\{v_1, v_2, \ldots, v_n\right\}\).
+  As \(v_i\) was chosen to be an eigenvector, \(T(v_i) = \lambda_i v_i\).
+  The coordinates of \(\lambda_i v_i\) in this basis are \(\lambda_i\) in place \(i\)
+  and \(0\) everywhere else.
+\end{proof}
+
+\subsection{On determinants}
+For computing and discussing eigenvalues we humans\footnote{Generally computers have more efficient approximations.} need to use the scalar-valued matrix function \(\det: \mathbb{C}^{n\times n} \to \mathbb{C}\), characterized by the following:
+\begin{enumerate}
+  \item \(\det\) is linear in every column.
+  \item \(\det A = 0\) if the columns of \(A\) are linearly dependent.
+  \item \(\det I = 1\).
+\end{enumerate}
+\(\det\) is a polynomial function with a number of important properties and interpretations, many of which are covered in a prerequisite course.
+Our primary use will be in a function called the characteristic polynomial \(\chi_A(s)\) that reveals in its roots the eigenvalues of \(A\).
+Given a matrix \(A\), \(\chi_A(s) = \det(sI - A)\), or sometimes \(\det(A -sI)\) (which works equally well).
+
+
+
+\subsection{Trivial diagonalization example}
+Let \(T: \mathbb{C}^n \to \mathbb{C}^n\) be dilation by factor of \(\rho\);
+that is, \(T(v) = \rho v\).
+Choose any basis \(\{v_1, v_2, \ldots, v_n\}\).
+The image of \(v_i\) under \(T\) can be constituted in this basis as \(\rho\) of \(v_i\) and 0 of every other basis vector.
+Therefore the matrix of \(T\) in any basis is \(\rho I\).
+
+\subsection{Easy diagonalization example}
+The vector space is \(\mathbb{C}^2\), and the operator is left multiplication by the matrix
+\begin{align}
+  A &= \begin{pmatrix}
+    1 & j \\
+    -j & 1
+\end{pmatrix}
+\intertext{This matrix has characteristic polynomial}
+\chi_A(s) &= s^2 - 2s = s(s-2)
+\intertext{and therefore eigenvalues \(0\) and \(2\), which we will keep in that order.
+The eigenvector corresponding to \(0\) comes from the null space of \(A - 0I\).
+\((1, j)\) will do.
+The eigenvector corresponding to \(2\) comes from the null space of \(A - 2I\). I'll take \((j, 1)\).
+To convert eigenbasis coordinates to standard basis coordinates, line up these eigenvectors side by side.}
+V &= \begin{pmatrix}
+  1 & j \\
+  j & 1
+\end{pmatrix}
+\intertext{The matrix that converts standard basis coordinates to eigenbasis coordinates is \(V^{-1}\):}
+V^{-1} &= \begin{pmatrix}
+  1/2 & -j/2 \\
+  -j/2 & 1/2
+\end{pmatrix}
+\intertext{Therefore \(A\) can be factored as follows.}
+A &= \begin{pmatrix}
+  1 & j \\
+  j & 1
+\end{pmatrix}
+\begin{pmatrix}
+  0 & 0 \\
+  0 & 2 \\
+\end{pmatrix}
+\begin{pmatrix}
+  1/2 & -j/2 \\
+  -j/2 & 1/2
+\end{pmatrix}
+\end{align}
+
+\subsection{Hard diagonalization example}
+Let \(T\) be the operator on \(\mathbb{C}^3\) that circularly shifts the coordinates one place to the right.
+It maps \(e_1\) to \(e_2\) and \(e_2\) to \(e_3\), and wraps \(e_3\) around to \(e_1\); so its coordinates in the standard basis are the following matrix.
+\begin{align}
+  A &= \begin{pmatrix}
+    0 & 0 & 1 \\
+    1 & 0 & 0 \\
+    0 & 1 & 0
+\end{pmatrix}
+\intertext{This matrix can be diagonalized with the help of the characteristic polynomial as above, but we'll take a different, more scenic path. Parameterize an eigenvalue-eigenvector pair \((\lambda, v)\) and solve the relation directly.}
+A \begin{pmatrix}
+  v_1 \\ v_2 \\ v_3
+\end{pmatrix}
+= \begin{pmatrix}
+  v_3 \\ v_1 \\ v_2
+\end{pmatrix}
+&= \begin{pmatrix}
+  \lambda v_1 \\
+  \lambda v_2 \\
+  \lambda v_3
+\end{pmatrix}
+\intertext{This relationship says that \(v_1 = \lambda v_2\), \(v_2 = \lambda v_3\), and \(v_3 = \lambda v_1\). Substituting,}
+  v_3 &= \lambda v_1 \\
+  &= \lambda^2 v_2 \\
+  &= \lambda^3 v_3\\
+  v_3 (1 - \lambda^3) &= 0
+\intertext{According to the zero product property, \(v_3 = 0\) or \(\lambda^3 = 1\). But \(v_3 = 0\) would imply \(v = 0\), which is not an eigenvector.
+Therefore \(\lambda^3 = 0\): \(\lambda\) is a number that you can cube and get 1 back as result.
+Parameterize \(\lambda\) in polar form as \(r e^{j\theta}\).}
+\del{r e^{j\theta}}^3 &= 1\\
+r^3 e^{3j \theta} &= 1 e^{j (0 + 2\pi n),}
+\intertext{where \(n\) is any integer. Matching magnitude and phase, we have}
+r &= 1 \text{ and}\\
+3\theta &= 0, 2\pi, 4\pi, 6\pi, \ldots\\
+\theta &= 0, \frac{2\pi}{3}, \frac{4\pi}{3}
+\end{align}
+
+\subsection{Non-diagonalizable example}
+The following matrix \(A\) has eigenvalue 0, but \((A - 0I)\) has a null space of dimension only 1.
+\begin{align*}
+  A &= \begin{pmatrix}
+    0 & 2 \\
+    0 & 0
+\end{pmatrix}
+\end{align*}
+Therefore \(A\) does not have a basis of eigenvectors and is not diagonal in any basis.
+
+\section{Solving vector differential equations}
+Diagonalization is able to factor most square matrices \(A = V\Lambda V^{-1}\),
+where \(\Lambda\) is a diagonal matrix of eigenvalues and \(V\) has eigenvectors of \(A\) in the same order.
+This fact makes it possible to solve vector differential equations \(\dot{x} = A x + bu\):
+\begin{align}
+  \dod{}{t}{x}
+  &= A x + bu \\
+  &= V \Lambda V^{-1} x + bu\\
+  V^{-1}\dod{}{t} x
+  = \dod{}{t} \del{V^{-1}x}
+  &= \Lambda V^{-1} x + V^{-1} bu
+  \intertext{Choose a new dependent variable \(z = V^{-1}x\), and write its differential equation using the Chain Rule.}
+  \dod{}{t} z &=
+  \Lambda z + \del{V^{-1}b} u
+\end{align}
+Each row is a scalar differential equation which we can solve, given initial conditions, using a formula.
+A solution for \(x\) can be reconstructed by \(x = Vz\).

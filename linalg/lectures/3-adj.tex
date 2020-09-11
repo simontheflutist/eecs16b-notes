@@ -1,0 +1,186 @@
+\chapter{Adjoint and self-adjoint operators and matrices}
+An inner product structure on a \(\mathbb{C}\)-vector spaces induces a
+``mirrored'' twin for every linear transformation, called the adjoint.
+Linear operators equal their own adjoints have many important properties.
+
+\section{Adjoint of an operator or matrix}
+\begin{definition}[Adjoint of a linear map]
+  Let \(f : U \to V\) be a linear map between two inner product spaces.
+  The \textbf{adjoint} of \(f\), denoted by \(f^* : V \to U\), is the unique linear map
+  such that
+  \(\innerprod{f(u)}{v} = \innerprod{u}{f^*(v)}\)
+  for all \(u \in U\) and \(v \in V\).
+\end{definition}
+
+\begin{theorem}[Technical facts about adjoints]
+  Let \(f\) and \(g\) be two linear operators on \(V\).
+  \begin{enumerate}
+    \item \(\del{\alpha f + g}^* = \conj{\alpha}f^* + g^*\) (conjugate linear)
+    \item \(\del{fg}^* = g^* f^*\) (reverses composition)
+    \item \(\del{f^*}^*\) (involutive)
+    \item \(I^* = I\) (identity operator is its own adjoint)
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  \begin{enumerate}
+    \item
+    Let \(x,y\in V\).
+    We need to show that
+    \(\innerprod{\del{\alpha f + g} x}{y}
+    = \innerprod{x}{\del{\conj{\alpha} f^* + g^*} y}\).
+    % {By linearity in the first argument,}
+    \begin{align}
+      \innerprod{\del{\alpha f + g} x}{y}
+      &= \alpha \innerprod{fx}{y} + \innerprod{gx}{y}\\
+      % \intertext{Use adjoints of \(f\) and \(g\).}
+      &= \alpha \innerprod{x}{f^*y} + \innerprod{x}{g^*y}\\
+      % \intertext{}
+      &= \innerprod{x}{\del{\conj{\alpha} f^* + g^*} y}\\
+      &= \innerprod{x}{\conj{\alpha}f^*} + \innerprod{x}{g^*y}\\
+    \end{align}
+
+    \item
+    Same setup as before.
+    \(\innerprod{fg x}{y} = \innerprod{gx}{f^*y} = \innerprod{x}{g^*f^*y}\).
+
+    \item
+    Same setup as before.
+    \(\innerprod{f^* x}{y} = \conj{\innerprod{y}{f^*x}} = \conj{\innerprod{fy}{x}} = \innerprod{x}{fy}\).
+
+    \item
+    Same setup as before.
+    \(\innerprod{Ix}{y} = \innerprod{x}{Iy}\).
+  \end{enumerate}
+\end{proof}
+
+\begin{definition}[Adjoint of a matrix]
+  Let \(A \in \mathbb{C}^{m \times n}\).
+  The \textbf{adjoint} or \textbf{conjugate transpose} of \(A\)
+  is the matrix \(A^*\) such that \(A^*_{ij} = \conj{A_{ji}}\).
+\end{definition}
+
+\begin{theorem}
+  Over an inner product space of finite dimension, adjoints exist.
+  In \(\mathbb{C}^n\) with the standard inner product,
+  an adjoint matrix is the matrix of the adjoint of the linear operator it represents.
+\end{theorem}
+
+\section{Self-adjoint operators}
+In this section we'll prove a condition for matrices to be orthogonally (-normally) diagonalizable.
+\begin{definition}[Self-adjoint]
+  A linear operator or matrix is called \textbf{self-adjoint} or \textbf{Hermitian}
+  if it is equal to its own adjoint.
+\end{definition}
+
+\begin{lemma}[Real eigenvalues]
+  Let \(f: V\to V\) be a Hermitian operator and \(\lambda\) an eigenvalue of \(f\).
+  Then \(\lambda\) is real.
+\end{lemma}
+\begin{proof}
+  Let \(v\) be a unit eigenvector of \(f\) satisfying \(f(v) = \lambda v\).
+  Then
+  \begin{align}
+    \lambda &= \innerprod{fv}{v} \\
+    &= \innerprod{v}{fv} \\
+    &= \conj{\innerprod{fv}{v}} \\
+    &= \conj{\lambda}.
+  \end{align}
+\end{proof}
+A large class of complex matrices with complex eigenvectors, but real eigenvalues.
+Wow! \textsc{Wow!}
+
+\begin{definition}[Restriction]
+  Let \(W\) be a subspace of \(V\) and \(f\) a linear operator on \(V\).
+  If \(f(W) \subseteq W\), then \(W\) is called
+  \textbf{\(f\)-invariant} or \textbf{\(f\)-stable}.
+  The linear operator \(\left.f\right|_W: W \to W\) defined by \(\left.f\right|_W(w) = f(w)\)
+  is called the \textbf{restriction} of \(f\) to \(W\).
+\end{definition}
+
+\begin{theorem}[\textsc{Spectral}\footnote{The word \emph{spectral} imputes an aura of magic and mystery. That is fitting because this theorem is very, very powerful.} \textsc{theorem}]
+A linear operator \(f: V\to V\) is self-adjoint if and only if it is diagonal and real in an orthonormal basis of \(V\).
+\end{theorem}
+\begin{proof}
+First we show that
+\(\del{\text{diagonal and real in an orthonormal basis}}\implies\del{\text{self-adjoint}}\).
+Suppose that the matrix of \(f\) is diagonal and real in an orthonormal basis.
+A diagonal real matrix is equal to its conjugate transpose.
+Therefore, as orthonormal bases faithfully represent inner product spaces and maps between them, \(f\) is self-adjoint.
+
+Next we show that
+\(\del{\text{self-adjoint}}\implies\del{\text{diagonal and real in an orthonormal basis}}\).
+We will use induction on \(n\), the dimension of \(V\).
+If \(n = 1\) then \(f\) is already diagonal in any basis.
+
+Next we need to show that if the Spectral Theorem holds on vector spaces of dimension \(n- 1\), then it holds on vector spaces of dimension \(n\).
+
+By the Fundamental Theorem of Algebra, \(f\) has an eigenvalue \(\lambda\).
+Because \(f\) is self-adjoint, \(\lambda\) is real.
+Let \(v\) be an eigenvector such that \(f(v) = \lambda v\).
+Both \(\Span{v}\) and its orthogonal complement \(\del{\Span{v}}^\perp\)
+are stable under \(f\), the former because it is an eigenspace, the latter in this way: let \(\innerprod{v'}{v} = 0\).
+Then \(\innerprod{f(v')}{v} = \innerprod{v'}{f(v)} = \conj{\lambda}\innerprod{v'}{v}=0\).
+
+By the induction hypothesis, \(\left.f\right|_{\del{\Span{v}}^\perp}\)
+has \(n-1\) orthogonal eigenvectors in \(W\).
+They are still eigenvectors, and still orthogonal, when treated as members of \(V\).
+Furthermore, they are orthogonal to \(v\) by construction.
+
+As such \(f\) has a basis of orthogonal eigenvectors, so it has a basis of orthonormal eigenvectors as well.
+\end{proof}
+
+\begin{lemma}[Spectral theorem, factorization version]
+  Let \(A \in \mathbb{C}^{n\times n}\) satisfy \(A = A^*\).
+  Then there exist a unitary matrix \(U\) and a real diagonal matrix \(\Lambda\)
+  such that \(A = U\Lambda U^*\).
+\end{lemma}
+Notice that \(U^* = U^{-1}\), so no manual inversion necessary.
+
+\begin{lemma}[Spectral theorem, projection version]
+  Let \(f : V\to V\) satisfy \(f = f^*\).
+  Let \(\left\{v_1, v_2, \ldots, v_n\right\}\) be orthonormal eigenvectors of \(f\) with eigenvalues \(\lambda_1, \lambda_2, \ldots, \lambda_n\).
+
+
+  Then \(f = \sum_{i=1}^n \lambda_i \proj_{v_i}\).
+  That is, every self-adjoint operator is a \emph{real} linear combination of orthogonal projections.
+\end{lemma}
+
+\begin{lemma}[Spectral theorem, dyad version]
+The last and final form of the Spectral Theorem can be seen either as an expansion of the factorization version into outer products or as a translation of the projection version into orthonormal coordinates.
+  Let \(A \in \mathbb{C}^n\) satisfy \(A = A^*\).
+  Let \(\left\{v_1, v_2, \ldots, v_n\right\}\) be orthonormal eigenvectors of \(f\) with eigenvalues \(\lambda_1, \lambda_2, \ldots, \lambda_n\).
+
+  Then \(f = \sum_{i=1}^n \lambda_i v_i v_i^*\).
+\end{lemma}
+
+% \subsection{Orthogonal (-normal) diagonalization example}
+% Let
+% \begin{align}
+%   A
+%   &=
+%   \begin{pmatrix}
+%     1 & 0 & 0 \\
+%     0 & 5 & 1+ j \\
+%     0 & 1 -j & 4
+%   \end{pmatrix}.
+% \end{align}
+
+\subsection{Application: direction of maximum amplification}
+Given a nonzero matrix \(A \in \mathbb{C}^{n\times n}\), we might wonder what spatial direction gives you the best bang for your buck under left multiplication by \(A\).
+That is, we are interested in the maximum amplification that \(A\) can exert on any vector:
+\begin{align}
+  \max_{v} \frac{\left\|Av\right\|}{\left\|v\right\|}
+  \intertext{We can narrow our search to unit vectors.}
+  \max_{\left\|v\right\| = 1} \sqrt{\innerprod{Av}{Av}}
+  &= \max_{\left\|v\right\| =1} \sqrt{\innerprod{A^*A v}{v}}
+  \intertext{\(A^*A\) is self-adjoint: \(\del{A^*A}^* = \del{A^*}\del{A^*}^* = A^*A\). Diagonalize it as \(A^*A = U \Lambda U^*\).}
+  &= \max_{\left\|v\right\| = 1} \sqrt{\innerprod{U\Lambda U^* v}{v}} \\
+  &= \max_{\left\|v\right\| = 1} \sqrt{\innerprod{\Lambda U^* v}{U^*v}} \\
+  \intertext{Change variables to \(w = U^*v\).}
+  &= \max_{\left\|w\right\| = 1} \sqrt{\innerprod{\Lambda w}{w}}
+  \intertext{This maximum is achieved when \(w = e_i\), where \(\lambda_i\) is a maximal entry of \(\Lambda\).}
+  &= \sqrt{\lambda_\text{max}(A^*A)}
+\end{align}
+The furthest that \(A\) can magnify any vector is the square root of \(\lambda_\text{max}\), a maximal eigenvalue of \(A^*A\).
+It quantifies how ``big'' \(A\) is, and is sometimes called
+are \(\sigma_1\) or \(\left\|A\right\|_2\), the operator norm of \(A\).

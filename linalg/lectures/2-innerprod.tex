@@ -1,0 +1,294 @@
+\chapter{Rigid geometry using inner products}
+
+\section{Inner product spaces}
+Inner products generalize rigid Euclidean geometry to \(\mathbb{C}^n\).
+\begin{definition}
+  An inner product on a vector space \(V\) over \(\mathbb{C}\)
+  is a function that assigns to every pair of vectors \(x, y\) a scalar
+  \innerprod{x}{y} satisfying the following for all \(x,y, z\in V\) and \(\alpha \in \mathbb{C}\):
+  \begin{enumerate}
+    \item \(\innerprod{x+y}{z} = \innerprod{x}{z} + \innerprod{y}{z}\). (additive in the first argument)
+    \item \(\innerprod{\alpha x}{y} = \alpha \innerprod{x}{y}\). (scaling in the second argument)
+    \item \(\conj{\innerprod{x}{y}} = \innerprod{y}{x}\). (conjugate symmetry)
+    \item \(\innerprod{x}{x}\) is real and nonnegative if \(x\) is not the zero vector. (positive-definite)
+  \end{enumerate}
+\end{definition}
+\begin{definition}
+  An \textbf{inner product space} is a vector space over \(\mathbb{C}\) equipped with an inner product.
+\end{definition}
+\begin{theorem}
+  Let \(V\) be an inner product space.
+  Then for \(x, y, z \in V\) and \(\alpha \in \mathbb{C}\),
+  the following are true:
+  \begin{enumerate}
+    \item \(\innerprod{x}{y+z} = \innerprod x y + \innerprod x z\).
+    \item \(\innerprod x {cy} = \conj{c} \innerprod{x}{y}\).
+    \item \(\innerprod x 0 = \innerprod 0 x = 0\).
+    \item \(\innerprod x x = 0\) if and only if \(x = 0\).
+    \item If \(\innerprod x y = \innerprod x z \) for all \(x\), then \(y = z\).
+  \end{enumerate}
+\end{theorem}
+
+\subsection{Very important example: standard inner product on \(\mathbb{C}^n\)}
+Define an inner product on
+\(\mathbb{C}^n\) by
+\(\innerprod x y = y^* x = \sum_{i=1}^{n} x_i \conj{y_i}\).
+Let's verify that this proposed inner product satisfies the inner product axioms.
+It is linear (preserves addition and scaling) in the first argument:
+\begin{align*}
+  \innerprod{\alpha x+y}{z} &= \sum_{i=1}^{n} \del{\alpha x + y}_i \conj{z_i}
+  = \sum_{i=1}^{n} \del{\alpha x_i + y_i} \conj{z_i}\\
+  &= \sum_{i=1}^{n} \del{\alpha x_i \conj{ z_i }+ y_i \conj {z_i}}
+  = \alpha \sum_{i=1}^{n} x_i \conj{ z_i }
+  + \sum_{i=1}^{n} y_i \conj {z_i}
+  = \alpha \innerprod x z + \innerprod y z.
+\end{align*}
+
+It is conjugate symmetric:
+\begin{align*}
+  \conj{\innerprod{x}{y}}
+  &= \conj{
+  \sum_{i=1}^{n} x_i \conj{y_i}
+  }
+  = \sum_{i=1}^{n} \conj{x_i \conj{y_i}}\\
+  &= \sum_{i=1}^{n} \conj{x_i} \ \conj{\conj{y_i}}
+  = \sum_{i=1}^{n} \conj{x_i} {y_i}
+  = \innerprod{y}{x}.
+\end{align*}
+
+And it's positive-definite, as
+\begin{align}
+  \innerprod{x}{x}
+  &= \sum_{i=1}^n x_i \conj{x_i},
+\end{align}
+which is a sum in which each term is nonnegative real.
+Therefore if the whole sum equals zero, every term is zero, and \(x\) is the zero vector.
+
+This inner product we just defined is called the \emph{standard inner product},
+and we will henceforth marry it to \(\mathbb{C}^n\) unless otherwise specified.
+Occasionally, in notationally reckless contexts, we will write it as \(y^*x \).
+
+\begin{definition}[Length of a vector]
+  The \textbf{length} of a vector \(v\), denoted by \(\left\|v\right\|\), is \(\sqrt{\innerprod v v}\).
+\end{definition}
+
+The length of a vector scales with the vector.
+That is, \(\left\| \alpha v \right\| = |\alpha| \left\|v\right\|\).
+
+\section{A ``law of cosines''}
+In Euclidean geometry,
+the Law of Cosines states for a triangle \(ABC\) that
+\(a^2 + b^2 - 2ab \cos{\theta} = c^2\),
+where \(\theta\) is the angle at corner \(C\).
+We will rediscover this fact in \(\mathbb{C}^n\) using inner products.
+
+Let \(x\) be the displacement vector from one corner of a triangle to the second,
+and \(y\) the displacement vector from the first to the third.
+Then the three sides of this triangle are \(x\), \(y\), and \(x - y\).
+An identity for \(\left\|x - y\right\|^2\) follows.
+\begin{align*}
+  \left\|x - y\right\|^2
+  &= \innerprod{x - y}{x - y}\\
+  &= \innerprod{x}{x} - \innerprod{x}{y} - \innerprod{y}{x} + \innerprod{y}{y}\\
+  &= \left\|x\right\|^2 + \left\|y\right\|^2
+  - \innerprod{x}{y} - \conj{\innerprod{x}{y}}\\
+  &= \left\|x\right\|^2 + \left\|y\right\|^2
+  - 2 \Re{\innerprod{x}{y}}\\
+  &= \left\|x\right\|^2 + \left\|y\right\|^2
+  - 2 \left\|x\right\|
+    \left\|y\right\|
+  \left[{\frac{\Re{\innerprod{x}{y}}}{\left\|x\right\|
+    \left\|y\right\|}}\right].\ \text{(if neither \(x\) nor \(y\) is zero)}
+\end{align*}
+The quotient in square brackets should be understood as \(\cos \theta\),
+where \(0 \leq \theta < \pi\) is the angle between the vectors \(x\) and \(y\).\footnote{In statistics, this is called Pearson's correlation coefficient.}
+If it is zero, then our identity reduces to the Pythagorean Theorem and we have a right triangle.
+
+\begin{definition}[Orthogonal and orthonormal subsets]
+  A set of vectors \(\left\{v_i\right\}_{i\in I}\)
+  is \textbf{orthogonal} if \(\innerprod{v_i}{v_j} = 0\) for \(i\neq j\).
+  It is \textbf{orthonormal} if in addition \(\innerprod{v_i}{v_i} = 1\).
+\end{definition}
+
+\begin{theorem}[Pythagoras]
+  If \(\left\{v_1, v_2, \ldots, v_n\right\}\) is orthogonal, then
+  \(\sum_{i=1}^{n} \left\|v_i\right\|^2 = \left\|\sum_{i=1}^{n} v_i \right\|^2\).
+\end{theorem}
+\begin{proof}
+  Split the sum into head and tail, then use induction.
+\end{proof}
+{\selectlanguage{greek}%
+Πῡθαγόρᾱς}
+didn't know what he was getting himself into!
+This simple result is richly applicable well beyond geometry class.
+An electrical interpretation is that when two sinusoidal power sources of different frequencies are superimposed, the resulting power is the sum.
+Likewise, when two musical instruments play at the same time, the power of the pressure wave is the sum of the instruments' respective powers. (This does not, however, mean that the result is twice as loud, as loudness perception is roughly logarithmic.)
+You may recall from a statistics class that variances of independent random variables add when the random variables are added.
+This is because independent random variables have a correlation (cosine) of zero,
+and are therefore susceptible to the Pythagorean theorem.
+
+\section{An inequality that bounds sums}
+\begin{definition}[Orthogonal projection]
+  Let \(u, v \in V\), with \(v \neq 0\).
+  The \textbf{orthogonal projection} of \(u\) onto \(v\) is
+  \(\proj_{v}u = \frac{\innerprod{u}{v}}{\innerprod{v}{v}}v\).
+\end{definition}
+The motivating property of \(\proj_v u\) is that \(u - \proj_v u\) is orthogonal to \(v\).
+\(\proj_v\) is linear and does not change when \(v\) is multiplied by a nonzero scalar.
+
+The following fact asserts that cosines lie between \(-1\) and 1.
+\begin{theorem}[Cauchy-(Bunjakowsky)-Schwarz]
+  For all pairs \(u, v \in V\), \(\left|\innerprod u v \right| \leq \left\|u\right\| \left\|v\right\|\).
+\end{theorem}
+\begin{proof}
+  The proof of the Cauchy-Schwarz inequality\footnote{That is, the full version. There are cute proofs that just work for \(\mathbb{R}^n\).} is notorious for employing unpredictable magic tricks whence the result comes out of nowhere.
+  I've tried to structure it in a more geometrically luminous, even if longer, way.
+
+  Separate \(u\) into parallel and perpendicular parts to \(v\):
+  \begin{align}
+    u &= \proj_v u + \del{u - \proj_v u} \\
+    &= \frac{\innerprod{u}{v}}{\innerprod{v}{v}} v
+    + \del{u - \proj_v u}\\
+    \intertext{Apply the Pythagorean Theorem; reduce fractions as needed.}
+    \left\|u\right\|^2
+    &= \left\|\frac{\innerprod{u}{v}}{\innerprod{v}{v}}\right\|^2 +
+    \left\|\del{u - \proj_v u}\right\|^2\\
+    \intertext{Throw away the right summand.}
+    &\geq \left\|\frac{\innerprod{u}{v}}{\innerprod{v}{v}}\right\|^2
+  \end{align}
+  The desired result follows from multiplying through by \(\innerprod{v}{v}\).
+\end{proof}
+
+The following result generalizes the fact that two sides of a triangle sum to longer than the third.
+\begin{theorem}[Triangle Inequality]
+Let \(u, v \in V\). Then \(\left\|u+v\right\| \leq \left\|u\right\| + \left\|v\right\|\).
+\end{theorem}
+\begin{proof}
+  Work from the square of the left side.
+  \begin{align}
+    \left\|u + v\right\|^2
+    &= \innerprod{u + v}{u + v}\\
+    &= \innerprod{u}{u} + \innerprod{u}{v}
+     + \innerprod{v}{u} + \innerprod{v}{v}\\
+    &= \left\|u\right\|^2 + \left\|v\right\|^2
+      + \innerprod{u}{v}
+      + \innerprod{v}{u}\\
+    \intertext{Take absolute values of both sides, using the fact that every number is less than or equal to its absolute value, or the scalar ``Triangle Inequality.''}
+    \left\|u + v\right\|^2
+    &\leq
+    \left\|u\right\|^2 + \left\|v\right\|^2
+      + \left|\innerprod{u}{v}\right|
+      + \left|\innerprod{v}{u}\right|\\
+    \intertext{Use Cauchy-Schwarz on the inner products.}
+    \left\|u + v\right\|^2
+    &\leq
+    \left\|u\right\|^2 + \left\|v\right\|^2
+    + 2\left\|u\right\|\left\|v\right\|
+  \end{align}
+  The Triangle Inequality follows after taking square roots.
+\end{proof}
+
+\subsection{Example of some orthonormal vectors}
+The following vectors in are orthonormal in \(\mathbb{C}^3\) with the standard inner product:
+\begin{align*}
+  \begin{pmatrix}
+    1 \\ 0 \\ 0
+  \end{pmatrix},
+  \begin{pmatrix}
+    0 \\ 1 \\ 1
+  \end{pmatrix},
+  \begin{pmatrix}
+    0 \\ 1 \\ -1
+  \end{pmatrix}.
+\end{align*}
+
+\section{Orthonormal bases and unitary transformations}
+When dealing with inner product spaces, the best basis is an orthonormal basis.
+Computing coordinates no longer requires solving a system of equations; it is as direct as computing inner products.
+\begin{theorem}[Computing coordinates in an orthonormal basis]
+If \(\left\{v_1, v_2, \ldots, v_n\right\}\) is an orthonormal basis for \(V\),
+then the coordinates of \(v \in V\) relative to this basis are
+\((\innerprod{v}{v_1}, \innerprod{v}{v_2}, \ldots, \innerprod{v}{v_n})\).
+\end{theorem}
+\begin{proof}
+  We will presume a unique decomposition and solve for a single coordinate.
+  \begin{align}
+    v
+    &= \alpha_1 v_1 + \alpha_2 v_2 + \ldots + \alpha_n v_n
+    \intertext{Take inner products of both sides with \(v_i\) on the right.}
+    \innerprod{v}{v_i}
+    &= \innerprod{\alpha_1 v_1 + \alpha_2 v_2 + \ldots + \alpha_n v_n}{v_i}
+    \intertext{Use linearity in the first argument.}
+    \innerprod{v}{v_i}
+    &= \alpha_1 \innerprod{v_1}{v_i} + \alpha_2 \innerprod{v_2}{v_i}
+    + \ldots + \alpha_n \innerprod{v_n}{v_i} = \alpha_i
+  \end{align}
+\end{proof}
+
+The following definition generalizes rigid transformations in Euclidean geometry.
+\begin{definition}[Unitary transformation]
+  Let \(f: U \to V\) be a linear map of inner product spaces.
+  \(f\) is called an \textbf{unitary transformation} if it preserves length: \(\left\|f(u)\right\| = \left\|u\right\|\).
+  If \(U = V\), \(f\) is called an \textbf{unitary operator}.
+\end{definition}
+
+The following result generalizes the ``side-side-side'' triangle congruence of classical synthetic geometry---if two triangles have the same side lengths, they have the same angles too.
+\begin{theorem}[Unitary transformation preserves inner product]
+  Let \(f: U\to V\) be an unitary transformation and let \(x, y \in U\).
+  Then \(\innerprod{f(x)}{f(y)} = \innerprod{x}{y}\).
+\end{theorem}
+\begin{proof}
+  The plan is to realize the desired product as cross terms of a product of sums.
+  \begin{align}
+    \left\|f(x) + f(y)\right\|^2
+    &= \left\|x + y\right\|^2\\
+    \left\|f(x)\right\|^2 + \innerprod{f(x)}{f(y)} + \innerprod{f(y)}{f(x)}
+    + \left\|f(y)\right\|^2
+    &=
+    \left\|x\right\|^2 + \innerprod{x}{y} + \innerprod{y}{x}
+    + \left\|y\right\|^2 \\
+    \innerprod{f(x)}{f(y)} + \innerprod{f(y)}{f(x)}
+    &=
+    \innerprod{x}{y} + \innerprod{y}{x}\\
+    \Re\innerprod{f(x)}{f(y)}
+    &=
+    \Re\innerprod{x}{y}
+  \end{align}
+  Repeating with the identity
+  \(\left\|f(x) + jf(y)\right\|^2
+  = \left\|x + jy\right\|^2\) yields
+  \(\Im\innerprod{f(x)}{f(y)}
+  =
+  \Im\innerprod{x}{y}\).
+\end{proof}
+This implies that the image of an orthonormal basis is orthonormal, so unitary transformations are one-to-one.
+
+% \begin{theorem}[Unitary matrix]
+% \end{theorem}
+
+\begin{theorem}
+  Let \(f: U\to V\) be an unitary transformation, and let
+  \(\left\{u_1, u_2, \ldots, u_n\right\}\) and
+  \(\left\{v_1, v_2, \ldots, v_m\right\}\) be orthonormal bases for \(U\) and \(V\), respectively.
+  The matrix of \(f\) relative to these bases has orthonormal columns.
+\end{theorem}
+The proof involves a lot of inner product chasing and is in my opinion more technical than illuminating.
+
+\begin{definition}[Unitary matrix]
+  A unitary matrix is a square matrix \(U \in \mathbb{C}^n\) with the property that \(U^*U = I\).
+\end{definition}
+The matrix of an unitary operator in an orthonormal basis is unitary.
+
+\begin{theorem}
+  Let \(\lambda\) be an eigenvalue of a unitary operator \(f: V\to V\).
+  Then \(\left|\lambda \right| =1\).
+\end{theorem}
+\begin{proof}
+  Let \(f(v) = \lambda v\).
+  Then \begin{align}
+    \innerprod{v}{v} = \innerprod{f(v)}{f(v)}
+    & = \innerprod{\lambda v}{\lambda v}\\
+    &= \lambda \conj{\lambda}\innerprod{v}{v},
+\end{align}
+so \(\lambda \conj{\lambda} = 1\).
+\end{proof}

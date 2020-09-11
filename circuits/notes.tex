@@ -1,0 +1,32 @@
+\documentclass{../content16b}
+
+\newcommand{\unit}[1]{\ensuremath{\,\text{#1}}}
+\newcommand{\Ohm}[1]{\unit{\ensuremath{\Omega}}}
+\counterwithin{section}{chapter}
+
+%% style override
+\nouppercaseheads
+\aliaspagestyle{title}{empty}
+\pagestyle{ruled}
+%% not sure if I want to hang these!!
+% \chapterstyle{hangnum}
+% \hangsecnum
+\begin{document}
+\title{EECS 16B Notes}
+\date{Spring 2020}
+\frontmatter
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+
+\mainmatter
+\renewcommand{\printchaptername}{\chapnamefont Lecture}
+\include{chapters/1}
+\include{chapters/2}
+\include{chapters/3}
+\include{chapters/4}
+\include{chapters/5}
+\include{chapters/6}
+\end{document}

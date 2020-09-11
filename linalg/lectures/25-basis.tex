@@ -1,0 +1,183 @@
+\chapter{The Discrete Fourier Transform}
+\begin{flushright}
+  O beloved son of Aegeus, for the gods alone\\
+  there is no growing old, no dying ever.\\
+  Everything else all-powerful Time destroys.\\
+  (Sophocles, \emph{Oedipus at Colonus}, tr.~Lefkowitz and Romm)
+  % Earth's strength fials, the body's strength fails,\\
+  % trust dies, distrust blooms in its place\\
+  % and the same spirit of friendliness never stays\\
+  % between one man and anoth
+\end{flushright}
+The DFT basis uses the cyclic properties of the \(N\)th roots of unity to decompose a finite, discrete signal into periodic frequency components.
+
+\section{Roots of 1}
+\subsection{There are \(N\) of them}
+What complex numbers \(\omega\) satisfy the equation \(\omega^N = 1\)?
+Obviously 1 works.
+To find the others, let \(\omega = re^{j\theta}\).
+\begin{align}
+  \del{re^{j\theta}}^N &= 1\\
+  r^N e^{jN\theta} &= 1
+  \intertext{Equating magnitudes, \(\left|r^N\right| = \left|r\right|^N = 1\).
+  As \(r\) is a nonnegative real number, this means \(r = 1\).
+  It can be cancelled from the left side.}
+  e^{jN\theta} &= 1
+  \intertext{This is satisfied when \(N\theta = 0\). As the complex exponential is periodic with a period of \(2\pi\), }
+  N\theta &= 0, 2\pi, 4\pi, \ldots \\
+  \theta &= 0, \frac{2\pi}{N}, \frac{4\pi}{N} \ldots \\
+  \intertext{This list of options runs out of unique angles when \(\theta\) reaches \(2\pi\) again.
+  Therefore, pairing each of these angles with magnitude \(r=1\), our solutions for \(\omega\) are}
+  \omega &= e^{\frac{2\pi}{N}nj}, \quad n = 0, \ldots, N - 1.
+\end{align}
+These \(N\) numbers are called the \(N\)th roots of unity.
+They can be viewed as the first \(N\) powers of \(e^{\frac{2\pi}{N}j}\), which is a rotation \(\frac{1}{N}\) of the way around the complex Unit Circle.
+We will use the notation \(\omega_N = e^{\frac{2\pi}{N}j}\),\footnote{Any power \(\omega_N^r\), where \(r\) is prime to \(N\), will also generate all \(N\) roots of unity! This fact is amazing! Please ask me why in office hours!}
+so that the \(N\)th roots of unity are \(\omega_N^0, \omega_N^1, \ldots, \omega_N^{N-1}\).
+
+\subsection{They add to 0}
+Because the \(N\)th roots of unity are all powers of \(\omega_N\), when you multiply them by \(\omega_N\), they don't go anywhere.
+They just trade places.
+We can use this coincidence to show that the sum of all the \(N\)th roots of unity is 0.
+
+Call this sum \(S\).
+We will multiply it by \(\omega_N\) and find that nothing changes.
+\begin{align}
+  S
+  &= \sum_{n=0}^{N - 1}
+  \omega_N^n\\
+  \omega_N S
+  &= \sum_{n=0}^{N - 1}
+  \omega_N^{n+1}
+  \intertext{The last term of this summation, \(\omega_N^N\), equals 1. Reordering the terms,}
+  &= \sum_{n=0}^{N - 1}
+  \omega_N ^n = S
+\end{align}
+We have shown that \(S\) is a number that you can multiply by a nonzero number and get \(S\) back.
+Therefore \(S = 0\).
+
+\subsection{They come in conjugate pairs}
+Every \(N\)th root of unity comes with its complex conjugate:
+if \(\omega^N = 1\), then \(\del{\overline \omega}^N = 1\).
+This comes from conjugating the characterstic equation:
+\begin{align}
+  \omega^N &= 1\\
+  \overline{\omega^N} &= \overline 1\\
+  \del{\overline \omega}^{\overline N} &=
+  \del{\overline \omega}^{N} = 1.
+\end{align}
+
+\section{The DFT Basis}
+Define a basis \(\left\{u_0, \ldots, u_{N-1}\right\}\) for \(\mathbb{C}^N\) as follows:\footnote{Indexing from \(0\) presents this basis in the customary order.}
+\begin{align*}
+  u_{k}[n] &= \frac{1}{\sqrt{N}} \omega_N^{kn},
+\end{align*}
+where \(u_k[n]\) denotes the \(n\)th coordinate of basis vector \(u_k\).%
+\footnote{Many normalizations of this basis exist. We are using the \(\frac{1}{\sqrt{N}}\) normalization because it's orthonormal, but it is not the most common default in numerical computing packages.}
+
+\begin{theorem}[DFT is orthonormal]
+  The DFT basis, defined above, is orthonormal.
+\end{theorem}
+\begin{proof}
+  We need to check that \(\innerprod{u_k}{u_{k'}}\) equals 1 when \(k = k'\) and 0 otherwise.
+  \begin{align}
+    \innerprod{u_k}{u_{k'}}
+    &= \sum_{n = 0}^{N - 1} u_k[n] \conj{u_{k'}[n]}\\
+    &= \frac{1}{N}
+    \sum_{n = 0}^{N - 1} \omega_N^{kn} \omega_N^{-k'n}\\
+    &= \frac{1}{N}
+    \sum_{n = 0}^{N - 1} \omega_N^{(k - k')n}
+    \intertext{If \(k = k'\) then the sum is \(N\) and \(\innerprod{u_k}{u_{k'}} = 1\). Otherwise, write this sum using \(\zeta = \omega_N^{k - k'}\).}
+    &= \frac{1}{N} \sum_{n = 0}^{N - 1} \zeta^n
+  \end{align}
+  This sum is stable  under multiplication by \(\zeta\), as \(\zeta^N = 1 = \zeta^0\), so it equals 0.
+\end{proof}
+
+By convention, in DFT contexts, indices start at zero and are interpreted modulo \(N\) because \(N\) roots of unity are \(N\)-cyclic; for example, the negative index \(-i\) can have the same meaning as the positive index \(N - i\).
+
+The change of coordinates \emph{from} the DFT basis is called \textbf{synthesis} and is represented by \(F^* \in \mathbb{C}^{n \times n}\).
+\begin{align}
+  F^*_{kn} &= \frac{1}{\sqrt{N}} \omega_N^{kn}\\
+  F^* &= \frac{1}{\sqrt N}\begin{pmatrix}
+    1 & 1 & \ldots & 1\\
+    1 & \omega & \ldots & \omega^{N - 1} \\
+    1 & \vdots & \ddots & \vdots \\
+    1 & \omega^{N- 1} & \hdots & \omega^{\del{N - 1}\del{N - 1}}
+\end{pmatrix} & \text{(\textbf{synthesis matrix})}\\
+x &= F^* X & \text{(\textbf{synthesis equation})}
+\intertext{The change of coordinates \emph{to} the DFT basis is called \textbf{analysis} and is represented by \(F \in \mathbb{C}^{n \times n}\).}
+F_{kn} &= \conj{F^*_{nk}} = \frac{1}{\sqrt{N}} \omega_N^{-kn}\\
+F &= \frac{1}{\sqrt N}\begin{pmatrix}
+  1 & 1 & \ldots & 1\\
+  1 & \omega^{-1} & \ldots & \omega^{-\del{N - 1}} \\
+  1 & \vdots & \ddots & \vdots \\
+  1 & \omega^{-\del{N- 1}} & \hdots & \omega^{-\del{N - 1}\del{N - 1}}
+\end{pmatrix}
+& \text{(\textbf{analysis matrix})}\\
+X &= F x & \text{(\textbf{analysis equation})}
+\end{align}
+
+``Synthesis'' and ``analysis'' are both words of Greek origin.
+``Synthesis'' has the meaning of ``to put together,'' and ``analysis'' has the meaning of ``to take apart.''
+\begin{itemize}
+  \item If \(x\) records equally spaced samples of a signal, then DFT analysis is the process of shredding \(x\) into its frequency components \(X\).
+  \item If \(X\) records the frequency components of \(x\), then DFT synthesis is the process of reassembling \(x\).
+\end{itemize}
+In the next section we will develop the interpretation of the DFT basis vectors as ``frequency components.''
+
+\section{DFT of a sinusoid}
+If the sinusoid \(\alpha\cos(\frac{2\pi k}{N}t + \varphi)\),
+where \(k\) and \(N\) are integers,
+is sampled \(N\) times in intervals of \(\Delta = 1\) starting at \(t = 0\),
+the resulting sample vector is
+\begin{align}
+  x[n] &= \alpha\cos\del{\frac{2\pi k}{N}n + \varphi},
+  \quad n = 0, \ldots, N - 1\\
+  &= \frac{\alpha}{2}
+  \del{e^{\del{\frac{2\pi k}{N}n + \varphi}j}
+  + e^{-\del{\frac{2\pi k}{N}n + \varphi}j}}\\
+  &= \frac{\alpha}{2}
+  \del{e^{\frac{2\pi k}{N}nj} e^{\varphi j}
+  + e^{-\frac{2\pi k}{N}nj} e^{-\varphi j}
+  }\\
+  &= \frac{\alpha}{2}
+  \del{\del{e^{\frac{2\pi}{N}j}}^{kn} e^{\varphi j}
+  + \del{e^{\frac{2\pi}{N}j}}^{-kn} e^{-\varphi j}
+  }\\
+  &= \frac{\alpha}{2}
+  \del{\omega_N^{kn} e^{\varphi j}
+  + \omega_N^{-kn} e^{-\varphi j}
+  }\\
+  &=
+  \frac{\alpha}{2} e^{\varphi j} \omega_N^{kn}
+  +
+  \frac{\alpha}{2} e^{-\varphi j} \omega_N^{-kn}
+  \\
+  &=
+  \frac{\alpha \sqrt N}{2} e^{\varphi j} u_k[n]
+  +
+  \frac{\alpha \sqrt N}{2} e^{-\varphi j} u_{N - k}[n]
+  \\
+  \intertext{In vector form,}
+  x &=
+  \frac{\alpha \sqrt N}{2} e^{\varphi j} u_k
+  +
+  \frac{\alpha \sqrt N}{2} e^{-\varphi j} u_{N - k}.
+  \intertext{
+  This expresses \(x\) as a superposition of \(u_k\) and \(u_{N -k}\).
+  If \(k = 0\) modulo \(N\), then \(u_k = u_0 = u_{N - k}\) and \(x = \del{{\alpha \sqrt N} \cos{\varphi}} u_0\).
+  If \(k \neq 0\) modulo \(N\), then  the Discrete Fourier Transform of \(x\) is the following:}
+  X[n]
+  &= \begin{cases}
+    \frac{\alpha \sqrt N}{2} e^{\varphi j}, &n = k\\
+    \frac{\alpha \sqrt N}{2} e^{-\varphi j}, &n = N - k\\
+    0, & \text{else}
+  \end{cases}
+\end{align}
+Note the following:
+\begin{itemize}
+  \item \(x\) is full of samples, but \(X\) is mostly zero.
+  \item \(u_k\) and  \(u_{N - k}\) are conjugate, and so are their coefficients in \(x\).
+  \item The DFT can extract a ``phasor representation'' of a sampled sinusoid.
+  \item (The DFT can't tell the difference between \(k\) and \(k + N\).)
+\end{itemize}

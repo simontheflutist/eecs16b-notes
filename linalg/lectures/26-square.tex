@@ -1,0 +1,139 @@
+\chapter{DFT of a square wave}
+% Last lecture we showed that
+% if \(x \in \mathbb{C}^{N}\) is the following sinusoid sample:
+% \begin{align}
+%   x[n] &= \alpha\cos\del{\frac{2\pi k}{N}n + \varphi},
+%   \quad n = 0, \ldots, N - 1
+%   \intertext{Then its DFT is \(X \in \mathbb{C}^N\):}
+%   X[n]
+%   &= \begin{cases}
+%     \frac{\alpha \sqrt N}{2} \cos{\varphi}, &n = k =0\\
+%     \frac{\alpha \sqrt N}{2} e^{\varphi j}, &n = k \neq 0\\
+%     \frac{\alpha \sqrt N}{2} e^{-\varphi j}, &n = N - k \neq N\\
+%     0, & \text{else}
+%   \end{cases}
+% \end{align}
+\section{Properties of the DFT}
+In this section, let \(x\) and \(y\) be time domain signals of length \(N\) and \(X = Fx\) and \(Y = Fx\) be their DFTs.
+\begin{itemize}
+  \item The DFT is linear: if \(a\) and \(b\) are scalars, \(F(ax + by) = aFx + bFy\).
+  \item The DFT preserves energy: \(\left\|Fx\right\|^2 = \left\|x\right\|^2\).
+  \footnote{This is called Parseval's Theorem.}
+  \item The DFT is conjugate-symmetric for real signals: if \(x\) is real, then \(X[n] = \conj{X[-n]} = \conj{X[N - n]} \).
+\end{itemize}
+
+\section{DFT of a rectangular pulse}
+Let \(x \in \mathbb{C}^N\) be the following rectangular pulse, which approximates a square wave when \(M = N/4\):
+\begin{align}
+  x[n] &= \begin{cases}
+    1, & -M \leq n \leq M\\
+    0, & \text{else}
+\end{cases}
+\intertext{Then the DFT of \(x\) is given by the following analysis equation:}
+  X &= Fx
+\intertext{This can be expanded in terms of the columns of \(F\):}
+  &= \sum_{k=-M}^M \conj{u_k}\\
+  X[n]
+  &= \sum_{k=-M}^M \conj{u_k[n]}\\
+  &=
+  \frac{1}{\sqrt{N}}
+  \sum_{k=-M}^M \omega^{-kn} \\
+  &=
+  \frac{1}{\sqrt{N}}
+  \sum_{k=-M}^M \del{\omega^{n}}^k \\
+  \intertext{Use a formula for a finite geometric sum where the ratio is \(\omega^n\).}
+  &=
+  \del{\frac{1}{\sqrt{N}}}
+  \frac{\del{\omega^n}^{-M} - \del{\omega^n}^{M + 1}}{1 - \omega^n}\\
+  \intertext{Write each term in the big fraction as a power of \(\omega_n\).}
+  &=
+  \del{\frac{1}{\sqrt{N}}}
+  \frac{\del{\omega^n}^{-M} - \del{\omega^n}^{M + 1}}
+  {\del{\omega^n}^0 - \del{\omega^n}^{1}}
+  \intertext{Cancel a factor of \(\del{\omega_n}^{1/2}\) from the numerator and denominator of the big fraction. (This amounts to subtracting \(1/2\) from each exponent.)}
+  &=
+  \del{\frac{1}{\sqrt{N}}}
+  \frac{\del{\omega^n}^{-M - 1/2} - \del{\omega^n}^{M + 1/2}}
+  {\del{\omega^n}^{-1/2} - \del{\omega^n}^{1/2}}\\
+  \intertext{Substitute the definition of \(\omega_N\).}
+  &=
+  \del{\frac{1}{\sqrt{N}}}
+  \frac{e^{-j\frac{2\pi}{N} n(M+1/2)} - e^{j\frac{2\pi}{N} n(M+1/2)} }
+  {e^{-j\frac{2\pi}{N} n/2} - e^{j\frac{2\pi}{N} n/2}}\\
+  &=
+  \del{\frac{1}{\sqrt{N}}}
+  \frac{e^{-j\frac{\pi}{N} (2M + 1) n} - e^{j\frac{\pi}{N} (2M + 1) n} }
+  {e^{-j\frac{\pi}{N} n} - e^{j\frac{\pi}{N} n}}\\
+  &=
+  \del{\frac{1}{\sqrt{N}}}
+  \frac{-2j\sin{\frac{\pi}{N} (2M + 1) n}}
+  {-2j\sin{\frac{\pi}{N} n}}\\
+  &=
+  \del{\frac{1}{\sqrt{N}}}
+  \frac{\sin{\frac{\pi}{N} (2M+1) n}}
+  {\sin{\frac{\pi}{N} n}}
+  \intertext{
+  Up to this point, we have used circular indexing in which e.g.~\(-n\) is interchangeable with \(N - n\).
+  Our forthcoming manipulation of this quotient will ruin its \(N\)-periodicity,
+  so we will preemptively commit to \(0\)-centered indexing \(-\left\lceil \frac{N}{2} \right\rceil \ldots 0 \ldots \left\lceil \frac{N}{2} \right\rceil\).
+  }
+  &=
+  \del{\frac{1}{\sqrt{N}}}
+  \frac{\sin{\frac{\pi}{N} (2M+1) n}}
+  {\sin{\frac{\pi}{N} n}}, &
+  n =
+  -\left\lceil \frac{N}{2} \right\rceil \ldots 0 \ldots \left\lceil \frac{N}{2} \right\rceil\\
+  \intertext{The argument of \(\sin\) in the denominator never gets very large. We can use the ignominous ``small-angle approximation'' \(\sin x \approx x\).}
+  &\approx
+  \del{\frac{1}{\sqrt{N}}}
+  \frac{\sin{\frac{2\pi}{N} (M+1/2) n}}
+  {\frac{\pi}{N} n},
+  &
+ n =
+ -\left\lceil \frac{N}{2} \right\rceil \ldots 0 \ldots \left\lceil \frac{N}{2} \right\rceil\\
+  &\approx
+  \del{\frac{2M + 1}{\sqrt{N}}}
+  \frac{\sin{\frac{\pi}{N} (2M + 1) n}}
+  {\frac{\pi}{N} \del{2M + 1} n}, &
+ n =
+ -\left\lceil \frac{N}{2} \right\rceil \ldots 0 \ldots \left\lceil \frac{N}{2} \right\rceil\\
+  &\approx
+  \del{\frac{2M + 1}{\sqrt{N}}}
+  \operatorname*{sinc}\del{\frac{2M + 1}{N} n},
+  &
+ n =
+ -\left\lceil \frac{N}{2} \right\rceil \ldots 0 \ldots \left\lceil \frac{N}{2} \right\rceil\\
+ \intertext{where \(\operatorname{sinc} x = \lim_{t \to x} \frac{\sin \pi t}{\pi t}\) is an even function that evaluates to \(1\) at \(0\) and 0 at all other integers. Finally, if \(x\) is a square wave, then we can substitute \(M = N/4\), resulting in the following.}
+  X[n]
+  &\approx
+  \del{\frac{2N/4 + 1}{\sqrt{N}}}
+  \operatorname*{sinc}\del{\frac{2N/4 + 1}{N} n},
+  &
+ n =
+ -\left\lceil \frac{N}{2} \right\rceil \ldots 0 \ldots \left\lceil \frac{N}{2} \right\rceil\\
+ &\approx
+ \frac{\sqrt{N}}{2}
+ \operatorname*{sinc}\del{\frac{1}{2} n},
+ &
+n =
+-\left\lceil \frac{N}{2} \right\rceil \ldots 0 \ldots \left\lceil \frac{N}{2} \right\rceil
+\end{align}
+Therefore the DFT of a square wave (half on, half off) is a sinc function that crosses zero every other frequency.
+
+\subsection{``The DFT of a square is a sinc and the DFT of a sinc is a square.''}
+If \(x\) is a square wave and \(X\) is its matching sinc, then the following analysis equation holds:
+\begin{align}
+  X &= Fx\\
+  \intertext{Conjugating both sides and using the fact that both \(x\) and \(X\) are real,}
+  \conj{X}
+  &= \conj{Fx} \\
+  &= \conj{F}\conj{x}\\
+  X &= \conj{F} x
+  \intertext{Using the fact that \(F\) is both unitary and symmetric, we can substitute \(\conj{F} = F^*\).}
+  X &= F^* x
+  \intertext{%his is outrageous.
+  A sinc is the DFT of a square wave, but it is the inverse DFT of a square wave as well! Multiplying through by \(F\) yields an analysis equation.
+  }
+  FX &= x
+\end{align}
+This kind of pairing relationship exists whenever \(x\) and \(X\) are both real. Another example is that the DFT of a DC signal is an impulse (one 1 and \(N - 1\) zeros), and that the DFT of an impulse is DC.

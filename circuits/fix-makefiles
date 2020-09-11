@@ -1,0 +1,4 @@
+#!/bin/bash
+find . -type d -exec rm -f "{}/Makefile" \;
+find . -type d -exec cp ./Makefile-template "{}/Makefile" \;
+rm -f Makefile

@@ -1,0 +1,213 @@
+\chapter{SVD II}
+\section{Computing the SVD (review)}
+To compute the SVD \(U\Sigma V^*\) of a matrix \(A \in \mathbb{C}^{m\times n}\) with \(\rank A = r\):
+\begin{enumerate}
+  \item Form the product \(A^*A\).
+  \item Identify the \(r\) positive eigenvalues of \(A^*A\). Call them \(\lambda_i\).
+  \item Identify \(r\) orthonormal eigenvectors \(v_i\) of \(A^*A\) such that \(A v_i = \lambda_i\).
+  \item Define \(\sigma_i = \sqrt{\lambda_i}\).
+  \item Define \(u_i = \sigma_i^{-1} A v_i\).
+  \item Thus far \(U\) is an \(m\times r\) matrix, \(\Sigma\) is an \(r \times r\) matrix, and \(V\) is an \(n \times r\) matrix. The factorization \(A = U \Sigma V^*\) is sometimes reported at this stage, and is called the \textbf{truncated SVD}.
+  \item If the \textbf{full SVD} is desired, then complete the columns of \(U\) and \(V\) to orthonormal bases, and pad \(\Sigma\) with zeros so that it is \(m \times n\).
+\end{enumerate}
+
+\subsection{Computation example}
+We will compute the SVD of the matrix \(A\).
+\begin{align}
+  A &= \begin{pmatrix}
+    1 & -j \\
+    0 & 1\\
+    1 & 0
+\end{pmatrix}\\
+  A^* A &= \begin{pmatrix}
+    1 & 0 & 1 \\
+    j & 1 & 0
+\end{pmatrix}
+\begin{pmatrix}
+  1 & -j \\
+  0 & 1 \\
+  1 & 0\\
+\end{pmatrix} \\
+&= \begin{pmatrix}
+  2 & -j \\
+  j & 2
+\end{pmatrix}\\
+\chi(s)
+&= s^2 - 4s + 3 = (s - 3)(s - 1)
+\intertext{First eigenvalue and eigenvector:}
+\lambda_1 &= 3\\
+\del{A^*A - 3I} v_1 &=
+\begin{pmatrix}
+  -1 & -j \\
+  j & -1
+\end{pmatrix} v_1 = 0\\
+v_1 &= \frac{1}{\sqrt{2}}\begin{pmatrix}
+  1 \\ j
+\end{pmatrix}
+\intertext{Second eigenvalue and eigenvector:}
+\lambda_2 &= 1\\
+\del{A^* A - I} v_2 &=
+\begin{pmatrix}
+  1 & -j \\
+  j & 1
+\end{pmatrix} v_2 = 0\\
+v_2 &=
+\frac{1}{\sqrt{2}}
+\begin{pmatrix}
+  j \\ 1
+\end{pmatrix}
+\intertext{Singular values:}
+\sigma_1 &= \sqrt{\lambda_1} = \sqrt{3}\\
+\sigma_2 &= \sqrt{\lambda_2} = 1
+\intertext{Left singular vectors:}
+u_1
+&= \frac{Av_1}{\sigma_1}
+= \frac{1}{\sqrt{6}}
+\begin{pmatrix}
+  2 \\ j \\ 1
+\end{pmatrix}\\
+u_2
+&= \frac{Av_2}{\sigma_2}
+= \frac{1}{\sqrt{2}}
+\begin{pmatrix}
+  0 \\
+  1 \\
+  j
+\end{pmatrix}
+\intertext{Truncated SVD in the factorization style:}
+A &= U_t \Sigma_t V^*_t =
+\begin{pmatrix}
+  \frac{2}{\sqrt{6}} & 0 \\
+  \frac{j}{\sqrt{6}} & \frac{1}{\sqrt{2}} \\
+  \frac{1}{\sqrt{6}} & \frac{j}{\sqrt{2}}
+\end{pmatrix}
+\begin{pmatrix}
+  \sqrt{3} & 0 \\
+  0 & 1
+\end{pmatrix}
+\begin{pmatrix}
+  \frac{1}{\sqrt{2}}  & \frac{-j}{\sqrt{2}} \\
+  \frac{-j}{\sqrt{2}}  & \frac{1}{\sqrt{2}}
+\end{pmatrix}\\
+\intertext{and in the dyad style:}
+&= \sum_{i = 1}^r \sigma_i u_iv_i^*
+= \sqrt{3}
+\begin{pmatrix}
+  \frac{2}{\sqrt{6}} \\
+  \frac{j}{\sqrt{6}} \\
+  \frac{1}{\sqrt{6}}
+\end{pmatrix}
+\begin{pmatrix}
+  \frac{1}{\sqrt{2}} &
+  \frac{-j}{\sqrt{2}}
+\end{pmatrix}
+ +
+ 1
+ \begin{pmatrix}
+   0 \\
+   \frac{1}{\sqrt 2}\\
+   \frac{j}{\sqrt 2}
+ \end{pmatrix}
+ \begin{pmatrix}
+   \frac{-j}{\sqrt{2}} &
+   \frac{1}{\sqrt{2}}
+ \end{pmatrix}
+\intertext{For a full SVD, make \(U\) square by orthogonalizing and normalizing the columns of \(\begin{pmatrix}
+  U_t & I
+\end{pmatrix}\) from left to right, dropping zero columns.}
+\begin{pmatrix}
+  \frac{2}{\sqrt{6}} & 0 & 1 & 0 & 0\\
+  \frac{j}{\sqrt{6}} & \frac{1}{\sqrt{2}} & 0 & 1 & 0\\
+  \frac{1}{\sqrt{6}} & \frac{j}{\sqrt{2}} & 0 & 0 & 1
+\end{pmatrix}
+&\rightsquigarrow
+\begin{pmatrix}
+  \frac{2}{\sqrt{6}} & 0 & \frac{1}{3} & 0 & 0\\
+  \frac{j}{\sqrt{6}} & \frac{1}{\sqrt{2}} & -\frac{j}{3} & 1 & 0\\
+  \frac{1}{\sqrt{6}} & \frac{j}{\sqrt{2}} & -\frac{1}{3} & 0 & 1
+\end{pmatrix} \quad \text{(orthogonalize col.~3)}\\
+&\rightsquigarrow
+\begin{pmatrix}
+  \frac{2}{\sqrt{6}} & 0 & \frac{1}{\sqrt{3}} & 0 & 0\\
+  \frac{j}{\sqrt{6}} & \frac{1}{\sqrt{2}} & -\frac{j}{\sqrt{3}} & 1 & 0\\
+  \frac{1}{\sqrt{6}} & \frac{j}{\sqrt{2}} & -\frac{1}{\sqrt{3}} & 0 & 1
+\end{pmatrix} \quad \text{(normalize col.~3)}
+\intertext{As there are three orthonormal columns, we are done. The following is the full SVD of \(A\):}
+A &= U_f\Sigma_f V^*_f = \begin{pmatrix}
+  \frac{2}{\sqrt{6}} & 0 & \frac{1}{\sqrt{3}} \\
+  \frac{j}{\sqrt{6}} & \frac{1}{\sqrt{2}} & -\frac{j}{\sqrt{3}} \\
+  \frac{1}{\sqrt{6}} & \frac{j}{\sqrt{2}} & -\frac{1}{\sqrt{3}}
+\end{pmatrix}
+\begin{pmatrix}
+  \sqrt{3} & 0 \\
+  0 & 1 \\
+  0 & 0
+\end{pmatrix}
+\begin{pmatrix}
+  \frac{1}{\sqrt{2}}  & \frac{-j}{\sqrt{2}} \\
+  \frac{-j}{\sqrt{2}}  & \frac{1}{\sqrt{2}}
+\end{pmatrix}
+\end{align}
+Note that \(U_f\) and \(V_f\) are both invertible, but \(\Sigma_f\) has rank \(2\), which is the rank of \(A\).
+
+
+\section{SVD of a wide matrix}
+To compute the SVD as we proved its existence, you need to form the product \(A^*A\).
+If \(A\) has more columns than rows, this matrix is pretty big. The SVD of \(A\) can be computed more efficiently by computing the SVD of \(A^*\), then using the following identity.
+\begin{align}
+  A^* &= \del{U \Sigma V^*}^* = V \Sigma^* U^*
+\end{align}
+
+% \subsection{Computation example}
+
+% \section{Application of the \(A^*A\) idea}
+% We are solving for \(x\) such that \(Ax = b\) (a system of equations).
+% We will do this by making \(x\) a function of \(t\), assigning it an initial condition
+% \(x(0) = x_0\), and defining \(\dod{}{t} x(t)\) such that \(x\) flows toward a solution.
+%
+% Let \(e\) represent squared error as follows.
+% \begin{align}
+%   e(t) &= \del{Ax(t) - b}^*\del{Ax(t) - b}\\
+%   &= x^*(t) A^* A x(t) - x^*(t) A^*b - b^* Ax(t) + b^*b\\
+%   % &= x^*(t) A^* A x(t) - 2 \Re{x^*(t) A^*b}) + b^*b
+%   \dod{}{t} e(t)
+%   &=
+% \end{align}
+
+\section{Application of SVD: PCA}
+Recall that the SVD can be used for dimensionality reduction as follows, for a matrix
+\(A \in \mathbb{C}^{m\times n}\) of rank \(r\).
+\begin{align}
+  A &= \sum_{i = 1}^{r} \sigma_i u_i v_i^* \\
+  &\approx \sum_{i = 1}^{r'} \sigma_i u_i v_i^*
+\end{align}
+By halting the sum early, at \(r' < r\), we retain the \(r'\) biggest summands in a decomposition of \(A\) into rank 1 matrices.
+
+Let \(X \in \mathbb{C}^{n\times p}\) be a matrix of \(n\) points in \(p\)-space, collected as rows.\footnote{Usually \(x_i\) means column \(i\), but using \(x_i\) to represent row \(i\) is more common for data science, possibly because the way we write math means that it's easier to picture a lot of rows than a lot of columns.}
+Each point can represent an observation, and each column a feature.
+\begin{align}
+  X &= \begin{pmatrix}
+    \transpose{x_1}\\
+    \transpose{x_2}\\
+    \vdots\\
+    \transpose{x_m}
+  \end{pmatrix}
+  \intertext{Represent each point as a displacement from the sample average \(\overline x\), and call this matrix of displacements \(\widetilde X\).}
+  \widetilde X
+  &=
+  \begin{pmatrix}
+    \transpose{x_1} - \overline x\\
+    \transpose{x_2} - \overline x\\
+    \vdots\\
+    \transpose{x_m} - \overline x
+  \end{pmatrix}
+  \intertext{Use the SVD to write \(\widetilde X\) as a sum of rank 1 matrices, from most important to least important. (Often \(n \gg p\) and \(\rank A = p\).)}
+  &= \sum_{i = 1}^{r} \sigma_i u_i v_i^*
+\end{align}
+Two data science interpretations of this SVD are the following:
+\begin{itemize}
+\item The vectors \(v_i\) are projections onto orthogonal directions of maximum variance, from greatest to least.
+\item Often times we observe that the singular values fall off a cliff or become negligible.
+In that even a low-rank approximation to is appropriate.
+\end{itemize}
+We will explore both of these in the next lecture.

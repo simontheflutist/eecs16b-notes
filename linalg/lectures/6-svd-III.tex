@@ -1,0 +1,96 @@
+\chapter{Principal component analysis}
+Suppose we have a matrix \(\widetilde X \in \mathbb{C}^{n \times p}\)
+whose rows are centered observations \(x_1 - \overline x, \ldots, x_n - \overline x\) and whose columns correspond to features:\footnote{Studying PCA in the context of complex observation would be considered exotic in the practice of statistics, but real-world PCA works just as well if you skip all the conjugation.}
+\begin{align}
+  \widetilde X
+  &= \begin{pmatrix}
+    \transpose{\del{x_1 - \overline x} }\\
+    \transpose{\del{x_2 - \overline x}}\\
+    \vdots \\
+    \transpose{\del{x_n - \overline x}}
+  \end{pmatrix}
+  \intertext{If \(v \in \mathbb{C}^p\) is a unit vector, the matrix \(\widetilde X \conj v\) is a list of scalar projections of \(\widetilde X\)'s rows onto \(v\).}
+  \widetilde X \conj v
+  &=
+  \begin{pmatrix}
+    \transpose{\del{x_1 - \overline x} } \conj v\\
+    \transpose{\del{x_2 - \overline x} } \conj v\\
+    \vdots \\
+    \transpose{\del{x_n - \overline x} } \conj v\\
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    \innerprod {{\del{x_1 - \overline x} }} v\\
+    \innerprod {{\del{x_2 - \overline x} }} v\\
+    \vdots \\
+    \innerprod {{\del{x_n - \overline x} }} v\\
+  \end{pmatrix}
+  \intertext{
+  Each inner product can be interpreted as having a factor of \(\cos \theta\), where \(\theta\) is the angle between the two vectors. Then \(\widetilde X \conj v\) is larger when \(\theta\) tends to be small, viz.\ when \(v\) points in the prevailing direction of deviation from \(\overline x\).
+  We can find \(v_1\) capturing the direction of greatest variation, \(v_2\) an orthogonal direction with second-greatest variation, etc.\ using the SVD.
+  Define the covariance matrix \(Q \in \mathbb{C}^{p \times p}\) as follows:
+  }
+  Q
+  &= \frac{1}{m - 1} \del{\widetilde X}^* \widetilde X
+  % \intertext{}
+\end{align}
+This can be seen as the sample average value of \(xx^*\).\footnote{Except the denominator is \(m-1\) instead of \(m\) for statistical reasons. This is called Bessel's correction.}
+\begin{itemize}
+  \item
+  Diagonal entry \(Q_{jj}\)\footnote{\(Q_{-1}\)?} is the average squared distance that feature \(p\) lands from its average value. This called the variance of feature \(j\).
+  \item
+  Off-diagonal entry \(Q_{jk}\)
+  is what you expect on the average when you multiply feature \(j\) by the complex conjugate of feature \(k\).
+  It
+  captures the correlation between feature \(j\) and feature \(k\).
+  If \(Q_{jk} \neq 0\), then features \(j\) and \(k\) tend to move together.
+  \begin{itemize}
+    \item
+    If \(Q_k\) is positive, that means that features \(j\) and \(k\) tend to deviate in the same direction.
+    When the former goes up, the latter goes up.
+    \item
+    If \(Q_k\) is negative, then features \(j\) and \(k\) tend to deviate in opposite directions.
+    When the former goes up, the latter goes up.
+    \item
+    If \(Q_k\) is pure imaginary, then features \(j\) and \(k\) always move together, but at some angle in the complex plane.\footnote{The interpretation of this case, I admit, is quite bizarre. I believe it is never part of the statistical form of PCA, which works with real data only.}
+    When the former goes east, the latter goes north or south.
+  \end{itemize}
+\end{itemize}
+
+Let \(\lambda_i\) be the \(i\)th greatest eigenvalue of \(Q\), and \(v_i\) a unit eigenvector that satisfies \(Qv_i = \lambda_i v_i\).
+\begin{itemize}
+  \item \(v_i\) is the \(i\)th \textbf{principal component} of \(\widetilde X\).
+  Projection onto \(v_1\) gets more scalar variance out of \(\widetilde X\) than any other direction.
+  If a scatter plot of the rows of \(\widetilde X\) looks like an ellipse in two dimensions, then \(v_1\) is the semi-major axis and \(v_2\) is the semi-minor axis.
+  \item \(\lambda_i\) is the variance of \(\widetilde X\) after projection onto the direction \(v_i\).
+  If a scatter plot of the rows of \(\widetilde X\) looks like an ellipse in two dimensions,
+  then \(\sqrt{\lambda_1}\) is proportional to the length of the semi-major axis, and \(\sqrt{\lambda_2}\) is proportional to the length of the semi-minor axis.
+\end{itemize}
+
+Scatter plots of empirical data come in all shapes and sizes, but after you project
+\(\widetilde X\) onto its leading principal components (by taking inner products e.g.~\(\transpose{x_i}\conj{v_j}\)), the scatter plots all look quite the same, at least in these ways:
+\begin{itemize}
+  \item The points are centered at the origin.
+  \item The point cloud is longest along the axis of the foremost principal component.
+\end{itemize}
+
+\section{Example: measuring an impedance by hand}
+Suppose that you are abducted by aliens.
+You are presented with an unknown linear circuit component, an AC voltage source, an oscilloscope, and a graphing calculator capable of linear algebra.
+The aliens will set you free, but only if you can tell them what the impedance \(Z\) is at a frequency \(\omega\).
+
+You beg them to let you into your lab at Berkeley where you have a instrument that measures impedance, but they say no.
+Here is how you might get a pretty good guess:
+
+\begin{enumerate}
+  \item Wire up your oscilloscope to plot voltage and current while you use your AC voltage source to induce a voltage \(v(t) = V \cos(\omega t)\) over the mystery component.
+  \item Write down the current waveform as \(i(t) = I \cos({\omega t + \phi})\).
+  \item Now you have a pair of phasors \(x = (\tilde V, \tilde I)\), where \(\tilde V = V\) and \(\tilde I = I e^{j \phi}\).
+  \item Instead of immediately reporting the ratio \(Z = \tilde V / \tilde I\),
+   collect more data at a range of voltages to be extra sure.
+  \item Now you have a long list of points \(\left\{x_1, x_2, \ldots, x_n\right\}\) where \(x_i = (\tilde V_i, \tilde I_i)\).
+  \item Consult the aliens, who are able to visualize data in 4 spatial dimensions, and confirm that your data points do indeed look like a line in \(\mathbb{C}^2\).
+  \item Perform PCA on your data to find the first principal component \((a, b)\).
+  When \(\tilde V\) moves in a direction of \(a\), \(\tilde I\) moves in the direction \(b\).
+  \item Report the slope \(a/b\) as your impedance estimate.
+\end{enumerate}

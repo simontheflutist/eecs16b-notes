@@ -1,0 +1,168 @@
+\chapter{SVD I}
+Last lecture we computed a positive scalar, \(\sigma_1\), that characterizes the magnitude of maximum amplification that a matrix \(A\) can effect on any vector.
+
+\section{Magnitude and direction(s)}
+The singular value decomposition does this and more:
+\begin{description}
+  \item[singular values]
+  are the proportions of maximum amplification of orthogonal directions:
+  \begin{enumerate}
+    \item \(\sigma_1\) is a maximum amplification of any direction.
+    \item \(\sigma_2\) is a maximum amplification of any direction orthogonal to the direction \(\sigma_1\) amplifies.
+    \item \(\sigma_3\) is a maximum amplification of any direction orthogonal
+    to the direction \(\sigma_1\) amplifies \emph{and}
+    the direction \(\sigma_2\) amplifies.
+    \item \ldots
+    \item \(\sigma_{\rank A}\) is a minimum amplification of any direction not in the null space of \(A\).
+  \end{enumerate}
+  \item[right singular vectors]
+  are the directions that are detected for amplification:
+  \(v_1\) is how \(\sigma_1\) finds what it wants, etc.
+  \item[left singular vectors]
+  are the directions that are output after amplification:
+  \(\sigma_1\) detects the quantity of \(v_1\) in its input, amplifies it, and outputs its amplified version along \(u_1\), etc.
+\end{description}
+
+The SVD can be seen as a generalization of the maxim ``a vector is magnitude and direction'' to matrices: ``a matrix is magnitudes, input directions, and output directions.''
+It is customary to state the magnitudes and directions of a matrix in order of importance.
+
+\begin{definition}[SVD, abstract version]
+  Let \(f : V \to U\) be a linear map of inner product spaces.
+  A \textbf{singular value decomposition} of \(f\) is a choice of
+  \begin{itemize}
+    \item
+    an orthonormal basis
+    \(\{v_1, v_2,\ldots, v_m\}\) for \(V\)  (\textbf{right singular vectors})
+    \item
+    an orthonormal basis
+    \(\{u_1, u_2,\ldots, u_n\}\) for \(U\) (\textbf{left singular vectors}), and
+    \item
+    positive scalars
+    \(\sigma_1 \geq \sigma_2 \geq \ldots \geq \sigma_r > 0\) (\textbf{singular values}); such that
+  \end{itemize}
+  \(f(v_i) = \sigma_i u_i\) for \(1 \leq i \leq r = \rank f\).
+\end{definition}
+
+\begin{lemma}[A ``square''\footnote{In the same sense that \(\conj{z} z\) is a nonnegative real number whose ``size'' is the square of the complex number \(z\).} of a map]
+  Let \(f : V\to U\) be a linear map of inner product spaces.
+  \begin{enumerate}
+    \item The composite \(f^* f: V \to V\) is self-adjoint.
+    \item The eigenvalues of \(f^* f\) are nonnegative.
+    \item The null space of \(f^* f\) is the same as that of \(f\).
+    \item The rank of \(f^* f\) is the same as that of \(f\).
+  \end{enumerate}
+\end{lemma}
+\begin{proof}[Proof.]
+  \begin{enumerate}
+    \item
+    Proved yesterday.
+    \item
+    Let \(f^* f v = \lambda v\).
+    Then \(\innerprod{f^* f v}{v} = \innerprod{fv}{fv} = \lambda \innerprod{v}{v}\),
+    establishing \(\lambda\) as a ratio of nonnegative numbers.
+    \item
+    Obviously the null space of \(f\) is contained in the null space of \(f^*f\).
+    We'll show that the null space of \(f^*f\) is contained the null space of \(f\).
+    Let \(f^*fv = 0\). Then \(\innerprod{f^*fv}{v} = \innerprod{fv}{fv} = 0\)
+    and \(fv = 0\).
+    \item
+    Follows from previous part by the rank-nullity theorem.
+  \end{enumerate}
+\end{proof}
+
+\section{SVD exists}
+\begin{theorem}[SVD exists]
+  Let \(f: V \to U\) be a linear map of vector spaces, with \(\dim V = n\) and \(\dim U = m\).
+\end{theorem}
+\begin{proof}
+  % Let \(f: U \to V\) be a linear map of vector spaces, with \(\dim U = n\) and \(\dim V = m\).
+  (Construction)
+  \begin{enumerate}
+    \item Let \(\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_r > 0\) be the positive eigenvalues of \(f^*f\), and let \(\{v_1, v_2, \ldots, v_r\}\) be corresponding orthonormal eigenvectors.
+    \item Choose \(\sigma_i = \sqrt{\lambda_i}\) for \(i = 1 \leq i \leq r\).
+    \item Choose \(u_i = f(v_i)/\sigma_i\) for \(i = 1 \leq i \leq  r\).
+    \item Complete \(\{v_i\}_{1 \leq i \leq r}\) and \(\{u_i\}_{1 \leq i \leq r}\)
+    to orthonormal bases for \(V\) and \(U\), respectively (the former having \(n\) vectors and the latter \(m\)).
+  \end{enumerate}
+
+  (Verification)
+  The basis \(\left\{v_i\right\}\) for \(V\) is orthonormal,
+  the purported singular values are in nonincreasing order,
+  and \(f(v_i) = \sigma_i u_i\) by construction.
+
+  All that remains to show is that
+  \(\{u_i\}_{1 \leq i \leq m}\) is orthonormal.
+  By construction,
+  \(\{u_i\}_{n < i \leq m}\) is orthonormal, and is orthogonal to
+  \(\{u_i\}_{1 \leq i \leq r}\).
+  So we just have to show that
+  \(\{u_i\}_{1 \leq i \leq r}\)
+  is orthonormal. For \(1 \leq i, j \leq r\),
+  \begin{align}
+    \innerprod{u_i}{u_j}
+    &=
+    \innerprod{
+      \frac{f(v_i)}{\sigma_i}
+    }{
+      \frac{f(v_j)}{\sigma_j}
+    }\\
+    &=
+    \frac{1}{\sigma_i\sigma_j}
+    \innerprod{
+      (f^*f)(v_i)
+    }{
+      v_j
+    }\\
+    &=
+    \frac{1}{\sigma_i\sigma_j}
+    \innerprod{
+      \sigma_i^2 v_i
+    }{
+      v_j
+    }\\
+    &=
+    \begin{cases}
+      1, & i = j\\
+      0, & i \neq j
+    \end{cases}
+  \end{align}
+\end{proof}
+
+\subsection{Example: SVDs of the identity map/matrix}
+Let's find out what the SVDs of \(I \in \mathbb{C}^{n\times n}\) are.
+\begin{enumerate}
+  \item
+  We have to form the matrix \(I^*I\). It equals \(I\).
+  \item
+  We need a basis of orthonormal eigenvectors for \(I^*I = I\).
+  Any basis \(\left\{v_1, v_2, \ldots, v_n\right\}\) will do.
+  (One could make such a basis using the Gram-Schmidt process by pulling random vectors out of hat.)
+  Every eigenvalue of \(I^*\) is 1, so every singular value is 1.
+  \item
+  The left singular vectors are \(I\) times the right singular vectors, divided by \(1\).
+\end{enumerate}
+Therefore, the singular value decompositions of \(I\) are all orthonormal bases.
+
+\subsection{SVD as a matrix factorization}
+Let \(A \in \mathbb{C}^{m\times n}\).
+Define \(V \in \mathbb{C}^{n\times n}\) by
+\begin{align}
+  V &= \begin{pmatrix}
+    v_1 & v_2 & \ldots & v_n
+\end{pmatrix},
+\intertext{where \(v_1, v_2, \ldots, v_n\) are right singular vectors in an SVD of \(A\). Define}
+  U &= \begin{pmatrix}
+    u_1 & u_2 & \ldots & u_m
+\end{pmatrix},
+\intertext{where \(u_1, u_2, \ldots, u_n\) are right singular vectors such that \(f(v_i) = \sigma u_i\). Define a matrix \(\Sigma \in \mathbb{C}^{m\times n}\) by}
+  \Sigma_{ii} &= \sigma_i.
+\intertext{Then the following factorization holds:}
+A &= U \Sigma V^*.
+\intertext{Splitting this matrix product into its nonzero outer products,}
+A &= \sum_{i=1}^{\rank A} \sigma_i \del{u_i {v_i}^*}.
+\intertext{This form is powerful because it allows us to approximate \(A\) by simpler matrices. Suppose that \(A\) is a noisy measurement of a matrix that we earnestly believe to be of rank \(r' < \rank A\). (Full rank matrices are the ``hay in the haystack,'' so noise tends to be full rank.)}
+A &\overset{\text{low rank}}{\approx}
+\sum_{i=1}^{r'} \sigma_i \del{u_i {v_i}^*}.
+\intertext{Or suppose that \(A\) is a noisy measurement of a matrix we believe in truth to be unitary. (Unitary matrices are common in robotics.) Probably all of the singular values are close to 1. To get the nearest unitary matrix, we can set them all to 1.}
+A &\overset{\text{unitary}}{\approx} \sum_{i=1}^{\rank A} u_i {v_i}^*.
+\end{align}

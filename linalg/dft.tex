@@ -1,0 +1,39 @@
+\documentclass{../content16b}
+\usepackage[greek,  english]{babel}
+% vanity commands
+\let\conj\overline
+\newcommand{\innerprod}[2]{%
+  \ensuremath{\left\langle#1, #2\right\rangle}%
+}
+\newcommand{\transpose}[1]{\ensuremath{{#1}^\top}}
+\DeclareMathOperator{\diag}{\mathrm{diag}}
+\DeclareMathOperator{\proj}{\mathrm{proj}}
+\DeclareMathOperator{\Span}{\mathrm{Span}}
+
+\nouppercaseheads
+\counterwithin{section}{chapter}
+\aliaspagestyle{title}{empty}
+\pagestyle{ruled}
+%% not sure if I want to hang these!!
+% \chapterstyle{hangnum}
+% \hangsecnum
+
+
+\newtheorem{infdef}{Informal Definition}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+
+% \includeonly{lectures/27-lti, lectures/28-dft-convolution}
+\begin{document}
+\title{EECS 16B DFT Notes}
+\renewcommand{\printchaptername}{\chapnamefont Lecture}
+
+\tableofcontents
+
+\include{lectures/25-basis}
+\include{lectures/26-square}
+\include{lectures/27-lti}
+\include{lectures/28-dft-convolution}
+
+\end{document}
