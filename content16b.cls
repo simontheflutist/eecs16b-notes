@@ -4,13 +4,21 @@
 \LoadClass[10pt, oneside]{memoir}
 
 %% Packages in lexicographical order! for deduplication
-\RequirePackage[euler-digits]{eulervm}
-\RequirePackage{adjustbox}
-\RequirePackage{algorithm}
-\RequirePackage{algpseudocode}
+
+% except for these math packages; the order is tricky lol 
 \RequirePackage{amsfonts}
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
+
+\RequirePackage{pxfonts}
+% \RequirePackage{newpxmath}
+\RequirePackage{newpxtext}
+\RequirePackage[euler-digits]{eulervm}
+
+\RequirePackage{adjustbox}
+\RequirePackage{algorithm}
+\RequirePackage{algpseudocode}
+
 \RequirePackage{cancel}
 \RequirePackage[american,siunitx]{circuitikz}
 \RequirePackage{commath}
@@ -24,9 +32,8 @@
 \RequirePackage{hyperref}
 \RequirePackage{latexsym}
 \RequirePackage{listings}
-% \RequirePackage{newpxmath}
 
-\RequirePackage{newpxtext}
+
 \RequirePackage{mathdots}
 \RequirePackage{mathtools}
 \RequirePackage[protrusion, expansion,kerning,tracking,spacing]{microtype}
