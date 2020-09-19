@@ -4,6 +4,7 @@
 \LoadClass[10pt, oneside]{memoir}
 
 %% Packages in lexicographical order! for deduplication
+\RequirePackage[euler-digits]{eulervm}
 \RequirePackage{adjustbox}
 \RequirePackage{algorithm}
 \RequirePackage{algpseudocode}
@@ -23,7 +24,8 @@
 \RequirePackage{hyperref}
 \RequirePackage{latexsym}
 \RequirePackage{listings}
-\RequirePackage{newpxmath}
+% \RequirePackage{newpxmath}
+
 \RequirePackage{newpxtext}
 \RequirePackage{mathdots}
 \RequirePackage{mathtools}
