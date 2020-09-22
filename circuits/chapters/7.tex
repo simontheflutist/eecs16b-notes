@@ -1,12 +1,12 @@
 \chapter{Inductors and RLC Circuits}
-
-\section{LR}
 \begin{figure}
   \centering
-  \includegraphics[width=0.75\linewidth]{figures/7/RL-circuit}
+  \includegraphics[width=0.4\linewidth]{figures/7/RL-circuit}
   \caption{An RL circuit with an (AC) voltage source.}
   \label{figure:lec7-RL-circuit}
 \end{figure}
+
+\section{LR}
 
 The RL circuit in \autoref{figure:lec7-RL-circuit} can be described by the following differential equation:
 \begin{align}
@@ -16,14 +16,14 @@ The RL circuit in \autoref{figure:lec7-RL-circuit} can be described by the follo
 It has eigenvalue \(\lambda = -\frac{R}{L}\) and time constant \(\tau = \frac{L}{R}\).
 Inductance is a ratio of magnetic flux (volt-seconds) to current (amps), so inductance divided by resistance works out to units of seconds.
 
+
+\section{LC}
 \begin{figure}
   \centering
-  \includegraphics[width=0.5\linewidth]{figures/7/LC-circuit}
+  \includegraphics[width=0.4\linewidth]{figures/7/LC-circuit}
   \caption{An LC circuit.}
   \label{figure:lec7-LC-circuit}
 \end{figure}
-
-\section{LC}
 The LC circuit in \autoref{figure:lec7-LC-circuit} can be described by the following two differential equations, which originate in Kirchoff's voltage and current laws, respectively.
 \begin{align}
   C \dod{}{t}v + i &= 0\\
@@ -72,7 +72,7 @@ Solving for eigenvectors,}
 Notice that \(\lambda_2 = \conj \lambda_1\) and \(\vec v_2 = \conj{\vec v_1}\).
 The eigenvalues and eigenvectors come in conjugate pairs because \(A\) is real, and the characteristic polynomial \(p(\lambda) = \det\del{\lambda I - A}\) has real-valued coefficients.
 The Fundamental Theorem of Algebra states that a polynomial of degree \(n\) has \(n\) roots.
-When the polynomial has real coefficients, then roots come in complex conjugate pairs:
+When the polynomial has real coefficients, then roots are real or occur in complex conjugate pairs:
 let \(p(\lambda) = 0\).
 Then \(\conj{p(\lambda)} = \conj{0} = 0\):
 \begin{align}
@@ -195,11 +195,11 @@ e^{j\theta}
 \end{figure}
 The following node equations describe the LRC circuit in \autoref{figure:lec7-LRC-circuit}:
 \begin{alignat}{3}
-  & (1) \quad & -i + \frac{v_1 - v}{R} & = 0\\
+  & (1) \quad & -i + \frac{v_1 - v}{R} & = 0\label{eq:lec7-KCL}\\
   & (2) \quad & \frac{v - v_1}{R} + C \dod{}{t} v &= 0\\
   & (3) \quad & L \dod{}{t}i &= -v_1
 \end{alignat}
-After using Equation~(1) to eliminate \(v_1\), we have the following two differential equations:
+After using \autoref{eq:lec7-KCL} to eliminate \(v_1\), we have the following two differential equations:
 \begin{align}
   C \dod{}{t} v &= i \\
   L \dod{}{t} i &= -Ri - v

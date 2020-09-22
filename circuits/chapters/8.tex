@@ -13,7 +13,7 @@ The following differential equation is familiar as the capacitor voltage of an R
   s V_\text{o} e^{st}
   &= -\frac{1}{RC} V_\text{o} e^{st} + \frac{1}{RC} V_\text{in} e^{st} \\
   V_o &= \frac{1}{1 + sRC} V_\text{in} = \frac{1}{1 - \frac{s}{\lambda}} V_\text{in}
-  \intertext{If our circuit has not existed with its input forever, then the  solution for \(v_\text{o}\) is a superposition of \(V_\text{o}e^{st}\) with a homogeneous (zero-input) response, in which \(A\) is a constant that depends on the initial condition.}
+  \intertext{If our circuit has not existed with its input forever, then the  solution for \(v_\text{o}\) is a superposition of \(V_\text{o}e^{st}\) with a homogeneous response, in which \(A\) is a constant that depends on the initial condition.}
   v_\text{o}
   &= V_\text{o} e^{st}
    \underbrace{{} + A e^{\lambda t}}_{\to 0 \ \text{if} \Re{\lambda} <  0}
@@ -60,8 +60,9 @@ Therefore \(\Re\cbr{A_1} = \Re\cbr{A_2}\).
 On the other hand, we need \(t = \frac{\pi}{2} \frac{1}{\omega}\) to access the imaginary part.
 From
 \begin{align}
-  x_1\del{\frac{\pi}{2} \frac{1}{\omega}}
-  &= x_2\del{\frac{\pi}{2} \frac{1}{\omega}}
+  \left.x_1\right|_{t = \frac{\pi}{2} \frac{1}{\omega}}
+  &=
+  \left.x_2\right|_{t = \frac{\pi}{2} \frac{1}{\omega}}
   \intertext{follows}
   \Re\cbr{A_1 e^{j\frac{\pi}{2}}}
 &= \Re\cbr{A_2 e^{j\frac{\pi}{2}}}.
@@ -133,7 +134,7 @@ These three properties translate circuit laws from time domain into phasor domai
   \caption{An RC circuit with a sinusoidal voltage source and its phasor domain representation.}
   \label{figure:lec8-RC}
 \end{figure}
-Because capacitors establish a proportional relationship between their voltage and current phasors, they may be regarded as resistor-like objects in phasor domain having imaginary resistance \(\frac{1}{j\omega C}\).
+Because capacitors establish a proportional relationship between their voltage and current phasors, they may be regarded as impedances in phasor domain having impedance \(\frac{1}{j\omega C}\).
 A sinusoidally-excited RC circuit is translated into phasor domain in \autoref{figure:lec8-RC}.
 In phasor domain, \(V_\text{o}\) is recognized as the lower half of a voltage divider spanning \(V_\text{in}\):
 \begin{align}
@@ -154,3 +155,4 @@ For low frequencies (\({\omega RC} \ll 1\)), \(\left|V_\text{o}\right| \approx \
 The output has about the same amplitude as the input.
 For high frequencies (\({\omega RC} \ll 1\)),\footnote{The approximation is good when \({\omega RC} > 10\).}
 \(\left|V_\text{o}\right| \approx \frac{1}{\omega RC}\left|V_\text{in}\right|\).
+As the amplitude at the filter output vanishes at high frequencies, this RC circuit functions as a low-pass filter.
