@@ -33,8 +33,8 @@ The LC circuit in \autoref{figure:lec7-LC-circuit} can be described by the follo
 \end{bmatrix}\),}
   \dod{}{t} \vec x
   &= \begin{bmatrix}
-    0 & -\frac{1}{C} \\
-    \frac{1}{L} & 0
+    \phantom{-}0 & -\frac{1}{C} \\[3pt]
+    \phantom{-}\frac{1}{L} & \phantom{-}0
   \end{bmatrix}
   \vec x
 \intertext{This equation can be solved given an initial condition (knowing the value \(\vec x(t_0)\) at some particular time \(t_0\)), yielding a solution for \(v\) and \(i\) that is good at every point in time.
@@ -42,26 +42,26 @@ Substituting \(L = 1\unit{H}\) and \(C = 1\unit{F}\),}
   \dod{}{t} \vec x
   &= \begin{bmatrix}
     0 & -1 \\
-    1 & 0
+    1 & \phantom{-}0
   \end{bmatrix}
   \vec x
 \intertext{We will analyze this system by taking eigenvalues and eigenvectors of the matrix \(A= \begin{bmatrix}
   0 & -1 \\
-  1 & 0
+  1 & \phantom{-}0
 \end{bmatrix}\).
 Its eigenvalues are the roots of its characteristic polynomial \(\det\del{\lambda I - A}= \lambda^2 + 1\), which are \(\pm j\).
 Call them \(\lambda_1 = j\) and \(\lambda_2 = -j\).
 Solving for eigenvectors,}
 \lambda_1 \rightsquigarrow
 \begin{bmatrix}
-  j & 1 \\
+  \phantom{-}j & 1 \\
 -1 & j
 \end{bmatrix} \vec v_1 &= \vec 0 \implies \vec v_1 = \begin{bmatrix}
-  1 \\ -j
+  \phantom{-}1 \\ -j
 \end{bmatrix} \\
 \lambda_2 \rightsquigarrow
 \begin{bmatrix}
-  -j & 1 \\
+  -j & \phantom{-}1 \\
 -1 & -j
 \end{bmatrix} \vec v_2 &= \vec 0 \implies \vec v_2 = \begin{bmatrix}
   1 \\ j
@@ -115,7 +115,7 @@ As a combination of \(\vec v_1\) and \(\vec v_2\),
 \begin{align}
   \vec x(0) &= \frac{1}{2}
   \underbrace{\begin{bmatrix}
-    1 \\
+    \phantom{-}1 \\
     -j
   \end{bmatrix}}_{\vec v_1}
 + \frac{1}{2}
@@ -127,7 +127,7 @@ As a combination of \(\vec v_1\) and \(\vec v_2\),
 \vec x(t)
  &= \frac{1}{2}
 \underbrace{\begin{bmatrix}
-  1 \\
+  \phantom{-}1 \\
   -j
 \end{bmatrix}}_{\vec v_1}
 e^{jt}
@@ -208,7 +208,7 @@ After using \autoref{eq:lec7-KCL} to eliminate \(v_1\), we have the following tw
     v\\i
   \end{bmatrix}
   &= \begin{bmatrix}
-    0 & \frac{1}{C} \\[3pt]
+    \phantom{-}0 & \phantom{-}\frac{1}{C} \\[3pt]
     -\frac{1}{L} & -\frac{R}{L}
   \end{bmatrix}
   \begin{bmatrix}
@@ -231,7 +231,7 @@ As \(R\) increases from zero, the eigenvalues move in significant ways.
 Between (1) and (2), the eigenvalues are neither real nor pure imaginary:
 \begin{align}
   \lambda_{1,2}
-&= \underbrace{-\frac{1}{2} \frac{R}{L}}_{\lambda_r} \pm j \underbrace{\sqrt{\del{\frac{1}{2}\frac{R}{L}}^2 - \frac{1}{LC}}}_{\lambda_i} = \lambda_r \pm j\lambda_i
+&= \underbrace{-\frac{1}{2} \frac{R}{L}}_{\lambda_r}\, \pm\ j \underbrace{\sqrt{\del{\frac{1}{2}\frac{R}{L}}^2 - \frac{1}{LC}}}_{\lambda_i} = \lambda_r \pm j\lambda_i
   \intertext{The time domain response will incorporate \(e^{\lambda t}\), which has the following trigonometric interpretation:}
   e^{\del{\lambda_r + j\lambda_i} t}
   &= e^{\lambda_r t} e^{j\lambda_i t} \\

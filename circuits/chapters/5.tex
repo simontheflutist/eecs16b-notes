@@ -49,7 +49,7 @@ In order to view this system of differential equations in state-space form, we w
   + v_2 \del{\frac{ 1} {R_2C_1}} + v_\text{in}(t) \del{ \frac {1 }{R_1 C_1}}
   \\
   \dod{}{t} v_2
-  &= v_1 \del{\frac1 {R_2 C_2}} - v_2 \del{\frac 1 {R_2 C_2}}
+  &= \phantom{-}v_1 \del{\frac1 {R_2 C_2}} - v_2 \del{\frac 1 {R_2 C_2}}
   \intertext{
   Written in matrix-vector form with physical parameters substituted,
   }
@@ -59,8 +59,8 @@ In order to view this system of differential equations in state-space form, we w
   \end{bmatrix}
   &=
   \begin{bmatrix}
-    -5 & 2\\
-    2 & -2
+    -5 & \phantom{-}2\\
+    \phantom{-}2 & -2
   \end{bmatrix}
   \begin{bmatrix}
     v_1\\v_2
