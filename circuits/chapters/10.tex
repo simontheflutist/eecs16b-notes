@@ -26,7 +26,7 @@ To analyze the LRC circuit in
   \centering
   \includegraphics[width=0.6\linewidth]{figures/10/root-locus}
   \caption{Eigenvalue locus from imaginary pair at \(R =0\) to negative real at critical \(R\), as \(R\) increases from \(0\).}
-  \label{figure:lec10-lrc}
+  \label{figure:lec10-root-locus}
 \end{figure}
 In \autoref{eq:lec7-lrc-A}, we found a state space differential equation model of this circuit with the following matrix:
 \begin{align}
@@ -39,7 +39,7 @@ In \autoref{eq:lec7-lrc-A}, we found a state space differential equation model o
   \lambda_{1,2}
   &= -\frac{1}{2} \frac{R}{L} \pm j\sqrt{\del{\frac{1}{2}\frac{R}{L}}^2 - \frac{1}{LC}}
   \intertext{are a complex conjugate pair on the imaginary axis when \(R = 0\). As \(R\) approches a critical value, they slowly approach the same point on the negative real axis. Their rendezvous is depicted in
-  \autoref{figure:lec10-lrc}. (Afterwards, they separate but remain real and negative.)
+  \autoref{figure:lec10-root-locus}. (Afterwards, they separate but remain real and negative.)
   We will reparameterize these eigenvalues in a way that traces their trajectory.
   Call the undamped (angular) frequency \(\omega_n\):}
   \eval{\lambda_{1,2}}_{R = 0}
@@ -105,15 +105,24 @@ A possible plot is shown in \autoref{figure:lec10-bode}.
 \begin{figure}
   \centering
   \includegraphics[width=0.6\linewidth]{figures/10/AM}
-  \caption{An \(R\approx 0\) LC circuit used as an AM matching network.}
+  \caption{An \(R\approx 0\) LC circuit used as an matching network.}
   \label{figure:lec10-AM}
 \end{figure}
 
-An AM radio antenna picks up a grab bag of electromagnetic signals, and to tune in to an AM radio channel, we need to detect the nonnegative function \(a(t)\) in front of its carrier wave \(\cos(\omega_n t)\).
-A matching network as in \autoref{figure:lec10-AM} after the antenna improves the performance of a downstream amplifier around frequency \(\omega_n\) by altering the effective impedance of the antenna.%
-\footnote{See \href{https://en.wikipedia.org/wiki/Impedance_matching}{impedance matching} on Wikipedia.}
+
+The power amplifier in a cellular handset runs off a low voltage, limited by the typical single cell lithium-ion battery voltage of about \(3.6\unit{V}\).
+Internally, the amplifier circuit is only able to generate a sinusoid of voltage in the \(1\)--\(2\unit{V}\) range.
+This would create an extreme challenge in driving an antenna with impedance in the \(50\)--\(75\unit{\(\Omega\)}\) range; namely, it would be impossible to develop the \(\approx 1\unit{W}\) power level without somehow boosting the voltage between the solid-state amplifier and the antenna.
+This is exactly where the LC network of \autoref{figure:lec10-AM} comes to the rescue.
+In this example, the LC network is called a matching network, and is used to boist the voltage to better ``match'' the antenna impedance.
+A matching network as in \autoref{figure:lec10-AM} before the antenna improves the performance by altering the effective impedance of the antenna.%
+% \footnote{See \href{https://en.wikipedia.org/wiki/Impedance_matching}{impedance matching} on Wikipedia.}
 \begin{align}
-  v_\text{in} &= \underbrace{a(t)}_{\text{slow}} \ \underbrace{\cos(\omega_n t)}_\text{fast}
+  v_\text{in} &= \underbrace{a(t)}_{\text{slow}} \
+    \cos
+      \del{
+          \underbrace{\omega_n t}_\text{fast} + \underbrace{\phi(t)}_{\text{slow}}
+      }
 \end{align}
 Taking the capacitor voltage as an output, we have \(\abs{v_\text{o}} \approx \frac{1}{2\xi} \abs{v_\text{a}}\).
 
@@ -130,8 +139,8 @@ Taking the capacitor voltage as an output, we have \(\abs{v_\text{o}} \approx \f
   \caption{Output of the switch in \autoref{figure:lec10-DC-DC}, approximated as an offset sine wave.}
   \label{figure:lec10-sq-approx}
 \end{figure}
-To step down a DC voltage source by 50\%, we can use a inverter operating
-alternating at a 50\% duty cycle to generate an offset square wave whose DC component is the voltage we are trying to deliver.\footnote{For efficiency, we can use parallel NMOS and PMOS transistors on either side of the switch to reduce resistance. We also want an inductor with the smallest possible parasitic resistance.}
+To step down a DC voltage source by 50\%, we can use an inverter operating
+alternating at a 50\% duty cycle to generate an offset square wave whose DC component is the voltage we are trying to deliver.\footnote{For efficiency, we can use parallel NMOS and PMOS transistors to realize the switch to reduce resistance. We also want an inductor with the smallest possible parasitic resistance.}
 An LC filter reduces the AC component of the switch output, without dissipating power.
 
 The inverter output \(v_\text{a}\) can be approximated as a sine wave with a DC offset (\autoref{figure:lec10-sq-approx}):
