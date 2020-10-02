@@ -145,14 +145,14 @@ v_\text{o}(t)
 &= \Re\cbr{V_o e^{j\omega t}} \\
 &= \Re\cbr{\frac{1}{1 + j\omega CR} V_\text{in} e^{j\omega t}} \\
 \intertext{Changing \(V_\text{o}\) to polar form,}
-&= \Re\cbr{\frac{1}{\left|1 + j\omega CR\right| e^{j\angle\del{1 + j\omega CR}}} V_\text{in} e^{j\omega t}} \\
-&= \Re\cbr{\frac{1}{\left|1 + j\omega CR\right| e^{j\tan^{-1}\del{\omega CR}}} V_\text{in} e^{j\omega t}} \\
-&= \Re\cbr{\frac{V_\text{in}}{\left|1 + j\omega CR\right|} e^{j\del{\omega t - \tan^{-1}\del{\omega CR}}}} \\
+&= \Re\cbr{\frac{1}{\abs{1 + j\omega CR} e^{j\angle\del{1 + j\omega CR}}} V_\text{in} e^{j\omega t}} \\
+&= \Re\cbr{\frac{1}{\abs{1 + j\omega CR} e^{j\tan^{-1}\del{\omega CR}}} V_\text{in} e^{j\omega t}} \\
+&= \Re\cbr{\frac{V_\text{in}}{\abs{1 + j\omega CR}} e^{j\del{\omega t - \tan^{-1}\del{\omega CR}}}} \\
 v_\text{o}(t)
-&= \frac{V_\text{in}}{\left|1 + j\omega CR\right|} \cos{\del{\omega t - \tan^{-1}\del{\omega CR}}}
+&= \frac{V_\text{in}}{\abs{1 + j\omega CR}} \cos{\del{\omega t - \tan^{-1}\del{\omega CR}}}
 \end{align}
-For low frequencies (\({\omega RC} \ll 1\)), \(\left|V_\text{o}\right| \approx \left|V_\text{in}\right|\).
+For low frequencies (\({\omega RC} \ll 1\)), \(\abs{1 + j\omega CR}\).
 The output has about the same amplitude as the input.
 For high frequencies (\({\omega RC} \ll 1\)),\footnote{The approximation is good when \({\omega RC} > 10\).}
-\(\left|V_\text{o}\right| \approx \frac{1}{\omega RC}\left|V_\text{in}\right|\).
+\(\abs{1 + j\omega CR}\).
 As the amplitude at the filter output vanishes at high frequencies, this RC circuit functions as a low-pass filter.

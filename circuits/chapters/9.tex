@@ -80,7 +80,7 @@ Engineers like to examine information at log scales, especially when it spans or
 
 A \emph{Bode plot} of the transfer function \(H(j\omega)\) is the following two things:
 \begin{enumerate}
-  \item A log-log plot of \(\left|H(j\omega)\right|\) vs.\ \(\omega\).
+  \item A log-log plot of \(\abs{H(j\omega)}\) vs.\ \(\omega\).
   \item A angle-log plot of \(\angle H(j\omega)\) vs.\ \(\omega\).
 \end{enumerate}
 
@@ -93,8 +93,8 @@ A \emph{Bode plot} of the transfer function \(H(j\omega)\) is the following two 
 \end{figure}
 For \(H(j\omega)\) above,
 \begin{align}
-  \left|H(j\omega)\right|
-  &= \left| \frac{1}{1 + j\omega RC} \right| \\
+  \abs{H(j\omega)}
+  &= \abs{ \frac{1}{1 + j\omega RC} } \\
   &= \frac{1}{\sqrt{1 + \omega^2 (RC)^2}}
 \end{align}
 On a log-log scale (\autoref{figure:lec9-mag-bode}), this looks approximately like a flat left asymptote and a downhill right asymptote, meeting at \(\eval{H(j\omega)}_{\omega = \frac{1}{\tau}} \approx 1\).\footnote{It's actually \(\frac{1}{\sqrt 2}\) (a real number) but this approximation works better with the piecewise linear style.}
