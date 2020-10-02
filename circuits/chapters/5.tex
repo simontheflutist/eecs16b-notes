@@ -5,7 +5,7 @@ Last lecture we derived the folowing equation modeling the input-output properti
 \begin{align}
   \dod{}{t} v_\text{out}(t)
   &= -\frac{1}{RC} v_\text{out}(t) + \frac{1}{RC} v_\text{in}(t);
-  \quad \left.v_\text{out} \right|_{t_0} = V
+  \quad \eval{v_\text{out} }_{t_0} = V
   \intertext{
   In this section we will try to determine the result in \(v_\text{out}\) when \(v_\text{in}\) has the following sinusoidal form:
   }
@@ -24,7 +24,7 @@ Last lecture we derived the folowing equation modeling the input-output properti
   \intertext{Substitution into the differential equation and initial conditions result in the following constants:}
   A &= \frac{V_\text{in}}{\sqrt{\omega^2\del{RC}^2 + 1}}\\
   \phi &= -\tan^{-1}(\omega RC) \\
-  B &= \left.v_\text{out}\right|_{t_0} - A \cos(\omega t_0 + \phi)
+  B &= \eval{v_\text{out}}_{t_0} - A \cos(\omega t_0 + \phi)
 \end{align}
 
 \section{Second-order filter with two capacitors}
