@@ -17,7 +17,7 @@ To analyze the LRC circuit in
   \frac{V_\text{o}}{V_\text{in}}
   = H(j\omega)
   &= \frac{\frac{1}{j\omega C}}{\frac{1}{j\omega C} + R + j\omega L} \\
-  &= \frac{\frac{1}{LC}}{\del{j\omega}^2 + j\omega \frac{R}{L} + \frac{1}{LC}}
+  &= \frac{1}{LC\del{j\omega}^2 + j\omega RC + 1}
 \end{align}
 
 \section{Time-domain analysis}
@@ -25,7 +25,7 @@ To analyze the LRC circuit in
 \begin{figure}
   \centering
   \includegraphics[width=0.6\linewidth]{figures/10/root-locus}
-  \caption{Eigenvalue motion from imaginary pair at \(R =0\) to negative real at critical \(R\).}
+  \caption{Eigenvalue locus from imaginary pair at \(R =0\) to negative real at critical \(R\), as \(R\) increases from \(0\).}
   \label{figure:lec10-lrc}
 \end{figure}
 In \autoref{eq:lec7-lrc-A}, we found a state space differential equation model of this circuit with the following matrix:
@@ -66,7 +66,8 @@ This parameterization appears in \autoref{figure:lec10-root-locus-reparam}.
 With the same choices of \(\omega_n\) and \(\xi\), the eigenvalues of \(A\) can be expresssed as
 \begin{align}
   \lambda_{1,2} &= -\xi \omega_n \pm j\omega_n \sqrt{1 - \xi^2}.
-  \intertext{With initial conditions \(v(0) = 1\unit{V}\) and \(i(0) = 0\unit{A}\), the homogeneous response works out to}
+  % Initial conditions don't work so I just said "idk what the phase is"
+  \intertext{The general form of the homogeneous response (modulo possible scaling and phase shift) is}
   v(t) &= \Re\cbr{e^{\lambda_1 t}} \\
   &= e^{-\xi\omega_n t} \Re\cbr{e^{j\omega_n \sqrt{1 - \xi^2} t}} \\
   &= e^{-\xi\omega_n t} \cos\del{\omega_n \sqrt{1 - \xi^2} t}
@@ -104,15 +105,17 @@ A possible plot is shown in \autoref{figure:lec10-bode}.
 \begin{figure}
   \centering
   \includegraphics[width=0.6\linewidth]{figures/10/AM}
-  \caption{An \(R\approx 0\) LC circuit used as an AM tuner.}
+  \caption{An \(R\approx 0\) LC circuit used as an AM matching network.}
   \label{figure:lec10-AM}
 \end{figure}
 
-An AM radio antenna picks up a grab bag of electromagnetic signals, and to tune in to an AM radio channel, we need to detect the nonnegative function \(a(t)\) in front of its carrier wave \(\cos(\omega_n t)\):
+An AM radio antenna picks up a grab bag of electromagnetic signals, and to tune in to an AM radio channel, we need to detect the nonnegative function \(a(t)\) in front of its carrier wave \(\cos(\omega_n t)\).
+A matching network as in \autoref{figure:lec10-AM} after the antenna improves the performance of a downstream amplifier around frequency \(\omega_n\) by altering the effective impedance of the antenna.%
+\footnote{See \href{https://en.wikipedia.org/wiki/Impedance_matching}{impedance matching} on Wikipedia.}
 \begin{align}
   v_\text{in} &= \underbrace{a(t)}_{\text{slow}} \ \underbrace{\cos(\omega_n t)}_\text{fast}
 \end{align}
-Using an LC circuit tuned to \(\omega_n\) as in \autoref{figure:lec10-AM}, we can use the capacitor voltage as an output, resulting in \(\abs{v_\text{o}} \approx \frac{1}{2\xi} \abs{v_\text{a}}\).
+Taking the capacitor voltage as an output, we have \(\abs{v_\text{o}} \approx \frac{1}{2\xi} \abs{v_\text{a}}\).
 
 \subsection{DC-DC converter}
 \begin{figure}
@@ -127,11 +130,11 @@ Using an LC circuit tuned to \(\omega_n\) as in \autoref{figure:lec10-AM}, we ca
   \caption{Output of the switch in \autoref{figure:lec10-DC-DC}, approximated as an offset sine wave.}
   \label{figure:lec10-sq-approx}
 \end{figure}
-To step down a DC voltage source by 50\%, we can use a CMOS switch
+To step down a DC voltage source by 50\%, we can use a inverter operating
 alternating at a 50\% duty cycle to generate an offset square wave whose DC component is the voltage we are trying to deliver.\footnote{For efficiency, we can use parallel NMOS and PMOS transistors on either side of the switch to reduce resistance. We also want an inductor with the smallest possible parasitic resistance.}
-An LC filter rejects the AC component of the switch output.
+An LC filter reduces the AC component of the switch output, without dissipating power.
 
-The switch output \(v_\text{a}\) can approximated as a sine wave with a DC offset (\autoref{figure:lec10-sq-approx}):
+The inverter output \(v_\text{a}\) can be approximated as a sine wave with a DC offset (\autoref{figure:lec10-sq-approx}):
 \begin{align}
   v_\text{a}(t)
   &= \underbrace{\frac{1}{2} V_\text{bat} \sin(\omega t)}_\text{ac} + \underbrace{\frac{1}{2} V_\text{bat}}_\text{dc}
@@ -142,4 +145,4 @@ The switch output \(v_\text{a}\) can approximated as a sine wave with a DC offse
 In order to have a convincing DC output, we need \(V_\text{o} \ll V_\text{bat}\).
 That sinusoid, as well as everything else that makes a square wave a square wave, will have to fit into the \(\abs{H(j\omega)} \approx \frac{\omega_n^2}{\omega^2}\) high-frequency region of \autoref{eq:lec10-LRC-tf}.
 That means we need to choose an \(\omega_n\) such that \(\omega_n \ll \omega\).
-For DC to overpower AC by a factor of 100, for instance, \(\omega\) would have to exceed \(10\omega_n\).
+For the DC amplitude to exceed the AC ``ripple'' amplitude by a factor of 100, for instance, \(\omega\) would have to exceed \(10\omega_n\).

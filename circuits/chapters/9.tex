@@ -51,7 +51,7 @@ Phasors respect the following properties when translating to and from time domai
     \vec X &= \del{j\omega I - A} ^{-1} \vec b U
   \end{align}
 \end{description}
-Therefore, linear laws such as KVL (a linear relationship of branch voltages) and KCL (a linear relationship of branch currents) apply to phasor voltages and currents, respectively.
+Because of the linearity property, linear laws such as KVL (a linear relationship of branch voltages) and KCL (a linear relationship of branch currents) apply to phasor voltages and currents, respectively.
 
 Resistors are linear circuit elements, with a proportionality relationship between voltage and current that holds in phasor domain:
 \begin{alignat}{4}
@@ -72,11 +72,11 @@ From the RC filter example, \autoref{eq:lec8-transferfunction} can be solved for
   \label{eq:lec9-mag-bode}
 \end{align}
 \(H(j\omega)\) is called the \emph{transfer function} of this system.
-It is a complex-valued function of angular frequency \(\omega\) whose magnitude is the amplitude scaling factor of this input-output pair, and whose phase is the phase shift.
+It is a complex-valued function of angular frequency \(\omega\) whose magnitude is the amplitude scaling factor of this input-output signal pair, and whose phase is the phase shift.
 Analyzing systems by following algebraic functions of a frequency parameter \(\omega\) is a strategy generally called ``frequency domain.''\footnote{An ideal hi-fi audio system, for example, would convert data on the recording medium to sound pressure in the air in a way that treats all frequencies equally.}
 
 \subsection{Bode plots}
-Engineers like to examine information at log scales, especially when it spans orders of magnitude.\footnote{A piano keyboard lays out fundamental frequencies from left to right on a log scale.} Frequency perception in human hearing ranges from 20\,Hz to 20\,kHz.
+Engineers like to examine information at log scales, especially when it spans orders of magnitude.\footnote{A piano keyboard lays out fundamental frequencies from left to right on a log scale.} Frequency perception in human hearing ranges from roughly 20\,Hz to 20\,kHz.
 
 A \emph{Bode plot} of the transfer function \(H(j\omega)\) is the following two things:
 \begin{enumerate}
